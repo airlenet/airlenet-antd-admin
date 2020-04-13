@@ -6,12 +6,21 @@ import router from "../../router"
 import { stringify } from 'querystring';
 export default {
   state: {
-      currentUser:null,
+      currentUser:{
+          name:'Serati Ma',
+          avatar:'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+      },
   },
   mutations: {
       saveCurrentUser(state,currentUser){
           state.currentUser=currentUser
-      }
+      },
+      changeNotifyCount(state ,{totalCount,unreadCount}){
+          const currentUser={...state.currentUser}
+          currentUser.notifyCount=totalCount;
+          currentUser.unreadCount=unreadCount;
+          state.currentUser= currentUser
+      },
   },
   actions: {
     handleLogin({ commit }, { userName, password, captcha, type }) {
@@ -58,6 +67,7 @@ export default {
             })
         }))
       },
+
       logout() {
           const { redirect } = getPageQuery();
           // Note: There may be security issues, please note
