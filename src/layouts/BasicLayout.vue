@@ -98,6 +98,7 @@ export default {
       (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
   },
   mounted() {
+    this.$store.dispatch("fetchCurrent").then(() => {});
     this.$store.dispatch("getMenuData", { routes }).then(() => {});
   }
 };

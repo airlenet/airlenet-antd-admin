@@ -34,30 +34,6 @@ export default {
           });
       });
     },
-    fetchCurrent({ commit }) {
-      return new Promise((resolve, reject) => {
-        queryCurrent()
-          .then(res => {
-            commit("saveCurrentUser", response);
-            resolve(res);
-          })
-          .catch(err => {
-            reject(err);
-          });
-      });
-    },
-    logout() {
-      const { redirect } = getPageQuery();
-      // Note: There may be security issues, please note
-      if (window.location.pathname !== "/user/login" && !redirect) {
-        // router.replace({
-        //     pathname: '/user/login',
-        //     search: stringify({
-        //         redirect: window.location.href,
-        //     }),
-        // });
-      }
-    },
   }
 };
 /* eslint-enable */

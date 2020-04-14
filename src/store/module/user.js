@@ -7,8 +7,7 @@ import { stringify } from 'querystring';
 export default {
   state: {
       currentUser:{
-          name:'Serati Ma',
-          avatar:'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+
       },
   },
   mutations: {
@@ -60,7 +59,7 @@ export default {
       fetchCurrent({ commit }){
         return new Promise(((resolve, reject) => {
             queryCurrent().then(res=>{
-                commit('saveCurrentUser', response)
+                commit('saveCurrentUser', res)
                 resolve(res)
             }).catch(err => {
                 reject(err)
