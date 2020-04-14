@@ -1,11 +1,24 @@
 <template>
   <div class="ant-design-pro ant-pro-basicLayout screen-xl">
     <a-layout style="minHeight:100%" :style="styleStr" hasSider>
-      <SiderMenuWrapper :mobile="mobile" :title="title" />
+      <SiderMenuWrapper
+        :mobile="mobile"
+        :title="title"
+        :theme="navTheme"
+        :menuData="menuData"
+        :collapsed="collapsed"
+        @onCollapse="() => (this.collapsed = !this.collapsed)"
+      />
       <a-layout :style="genLayoutStyle">
-        <Header :logo="logo" rightContent="RightContent">
+        <HeaderView
+          :logo="logo"
+          rightContent="RightContent"
+          :mobile="mobile"
+          :collapsed="collapsed"
+          @onCollapse="() => (this.collapsed = !this.collapsed)"
+        >
           <GlobalRightContent slot="rightContent" />
-        </Header>
+        </HeaderView>
         <WrapContent
           :className="contentClassName"
           :isChildrenLayout="isChildrenLayout"
@@ -14,7 +27,7 @@
           <PageLoading v-if="loading" />
           <router-view v-else />
         </WrapContent>
-        <!--{footerDom}-->
+        <FooterView />
       </a-layout>
     </a-layout>
   </div>
@@ -27,20 +40,26 @@ import useMediaQuery from "@/utils/use-media-query.js";
 import SiderMenuWrapper from "../components/SiderMenu/SiderMenuWrapper";
 import DefaultSettings from "../config/defaultSettings.js";
 import "./BasicLayout.less";
-import Header from "../components/Header/Header";
+import HeaderView from "../components/Header/HeaderView";
 import logo from "../assets/logo.svg";
 import GlobalRightContent from "../components/Header/GlobalRightContent";
+import routes from "../router/routers.js";
+import FooterView from "../components/Footer/FooterView";
 export default {
   name: "BasicLayout",
   components: {
+    FooterView,
     GlobalRightContent,
-    Header,
+    HeaderView,
     SiderMenuWrapper,
     WrapContent,
     PageLoading
   },
   props: {
     styleStr: {},
+    /**
+     * 是否禁用移动端模式，有的管理系统不需要移动端模式，此属性设置为true即可
+     */
     disableMobile: {
       default: false
     }
@@ -49,12 +68,17 @@ export default {
     return {
       loading: false,
       colSize: "",
+      collapsed: false,
       mobile: false,
       title: DefaultSettings.title,
+      navTheme: DefaultSettings.navTheme,
       logo: logo
     };
   },
   computed: {
+    menuData() {
+      return this.$store.state.menu.menuData;
+    },
     genLayoutStyle() {
       return "";
     },
@@ -71,7 +95,10 @@ export default {
   created() {
     this.colSize = useMediaQuery();
     this.mobile =
-      (this.colSize === "sm" || this.colSize === "xs") && this.disableMobile;
+      (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
+  },
+  mounted() {
+    this.$store.dispatch("getMenuData", { routes }).then(() => {});
   }
 };
 </script>

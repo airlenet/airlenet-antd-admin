@@ -13,6 +13,8 @@
       "
       :rightContent="rightContent"
       :logo="logo"
+      :collapsed="collapsed"
+      :mobile="mobile"
     >
       <template slot="rightContent">
         <slot name="rightContent"></slot
@@ -26,7 +28,7 @@ import TopNavHeader from "../TopNavHeader/TopNavHeader";
 import GlobalHeader from "./GlobalHeader";
 import "./Header.less";
 export default {
-  name: "Header",
+  name: "HeaderView",
   components: { GlobalHeader, TopNavHeader },
   props: {
     fixedHeader: {},
@@ -35,6 +37,7 @@ export default {
     siderWidth: {},
     mobile: {},
     logo: {},
+    collapsed: {},
     rightContent: {}
   },
   computed: {

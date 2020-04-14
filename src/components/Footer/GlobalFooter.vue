@@ -16,7 +16,7 @@
       class="ant-pro-global-footer-copyright"
       v-html="copyright"
     >
-      {copyright}
+      <slot name="copyright"></slot>
     </div>
   </footer>
 </template>
