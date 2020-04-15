@@ -1,10 +1,14 @@
 <template>
+  <div>
+  <a-layout-header v-if="fixedHeader"/>
   <a-layout-header
-    :style="styleStr"
-    :class="{ 'ant-pro-fixed-header': fixedHeader, 'ant-pro-top-menu': top() }"
+    :style="{padding: '0px',zIndex: 9,width:needSettingWidth?'calc(100% - '+(collapsed ? 80 : siderWidth)+'px)':'auto',right:fixedHeader?'0px':'auto'}"
+    :class="{ ['ant-pro-fixed-header']: fixedHeader, ['ant-pro-top-menu']: top }"
   >
+    <!--  {['right:0px']:fixedHeader}-->
+    <!--{['width:calc(100% - '+(collapsed ? 80 : siderWidth)+'px)']:needSettingWidth},-->
     <TopNavHeader
-      v-if="top() && !mobile"
+      v-if="top && !mobile"
       :logo="logo"
       :title="title"
       :theme="theme"
@@ -32,6 +36,7 @@
       ></template>
     </GlobalHeader>
   </a-layout-header>
+  </div>
 </template>
 
 <script>
@@ -55,25 +60,14 @@ export default {
     menuData: {}
   },
   computed: {
-    styleStr() {
-      return (
-        "padding: 0px;width:" +
-        (this.needSettingWidth()
-          ? `calc(100% - ${this.collapsed ? 80 : this.siderWidth}px)`
-          : "100%" + "z-index: 9,right: ") +
-        (this.fixedHeader ? 0 : undefined)
-      );
-    }
-  },
-  methods: {
     top() {
       return this.layout === "topmenu";
     },
     needSettingWidth() {
       return (
-        this.fixedHeader && this.hasSiderMenu && !this.top() && !this.mobile
+        this.fixedHeader && this.hasSiderMenu && !this.top && !this.mobile
       );
     }
-  }
+  },
 };
 </script>

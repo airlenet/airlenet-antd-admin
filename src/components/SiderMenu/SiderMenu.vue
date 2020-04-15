@@ -34,8 +34,7 @@ export default {
   components: { BaseMenu },
   props: {
     logo: {
-      default:
-        "https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg"
+
     },
     title: {},
     collapsed: {},

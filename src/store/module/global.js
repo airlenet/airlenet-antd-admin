@@ -7,9 +7,9 @@ export default {
     notices: []
   },
   mutations: {
-    changeLayoutCollapsed(state) {
-      state.collapsed = true;
-      state.notices = [];
+    changeLayoutCollapsed(state,collapsed) {
+      state.collapsed = collapsed;
+      // state.notices = [];
     },
     saveNotices(state, payload) {
       state.collapsed = false;

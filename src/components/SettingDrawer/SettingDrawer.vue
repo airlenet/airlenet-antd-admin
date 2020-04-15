@@ -43,7 +43,7 @@
         :title="$t('app.setting.themecolor')"
         :value="setting.primaryColor"
         :colors="
-          themeList.colorList[navTheme === 'realDark' ? 'dark' : 'light']
+          themeList.colorList[setting.navTheme === 'realDark' ? 'dark' : 'light']
         "
         @onChange="color => changeSetting('primaryColor', color)"
       />
@@ -74,7 +74,14 @@
           @onChange="value => changeSetting('layout', value)"
         />
       </div>
-
+      <LayoutSetting
+        :contentWidth="setting.contentWidth"
+        :layout="setting.layout"
+        :fixSiderbar="setting.fixSiderbar"
+        :fixedHeader="setting.fixedHeader"
+        @changeSetting="changeSetting"
+      />
+      <a-divider />
       <!--<Body title={formatMessage({ id: 'app.setting.navigationmode' })}>-->
       <!--<BlockCheckbox-->
       <!--value={layout}-->
@@ -144,6 +151,7 @@ import {
 import "./SettingDrawer.less";
 import BlockCheckbox from "./BlockCheckbox";
 import ThemeColor from "./ThemeColor";
+import LayoutSetting from "./LayoutSetting";
 
 export default {
   name: "SettingDrawer",
@@ -151,6 +159,7 @@ export default {
     setting: {}
   },
   components: {
+    LayoutSetting,
     ThemeColor,
     BlockCheckbox,
     CopyOutlined,
@@ -236,9 +245,17 @@ export default {
     changeSetting(key, value) {
       const nextState = { ...this.setting };
       nextState[key] = value;
-      this.$store.commit("changeSetting", { payload: nextState });
+      this.$emit('onSettingChange',{ payload: nextState })
     }
   },
-  mounted() {}
+  watch: {
+    setting:{
+      handler(newVal, oldVal) {
+        console.log(newVal,oldVal)
+      },
+      immediate: true,
+      deep: true
+    }
+  }
 };
 </script>

@@ -15,6 +15,7 @@
           :menuData="menuData"
           :title="title"
           :theme="theme"
+          :logo="logo"
           :collapsed="mobile ? false : collapsed"
         />
       </a-drawer>
@@ -25,6 +26,7 @@
         :menuData="menuData"
         :title="title"
         :theme="theme"
+        :logo="logo"
         :collapsed="collapsed"
       />
     </template>
@@ -37,6 +39,7 @@ export default {
   name: "SiderMenuWrapper",
   components: { SiderMenu },
   props: {
+    logo: {},
     mobile: {},
     menuData: {},
     collapsed: {},

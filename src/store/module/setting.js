@@ -120,7 +120,13 @@ export default {
 
       // state = { ...payload };
         state.navTheme = payload.navTheme;
+        state.primaryColor = payload.primaryColor;
         state.layout = payload.layout;
+        state.contentWidth = payload.contentWidth;
+        state.fixedHeader = payload.fixedHeader;
+        state.autoHideHeader = payload.autoHideHeader;
+        state.fixSiderbar = payload.fixSiderbar;
+        state.colorWeak = payload.colorWeak;
     }
   }
 };

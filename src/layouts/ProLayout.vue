@@ -14,13 +14,15 @@
   >
     <a-layout style="minHeight:100%" :style="styleStr" hasSider>
       <SiderMenuWrapper
+        v-if="hasSiderMenu"
         :mobile="mobile"
         :title="title"
         :theme="navTheme"
         :menuData="menuData"
         :collapsed="collapsed"
+        :logo="logo"
         :hide="hide"
-        @onCollapse="() => (this.collapsed = !this.collapsed)"
+        @onCollapse="onCollapse"
       />
       <a-layout :style="genLayoutStyle">
         <HeaderView
@@ -28,11 +30,14 @@
           rightContent="RightContent"
           :mobile="mobile"
           :title="title"
+          :hasSiderMenu="hasSiderMenu"
           :theme="navTheme"
           :layout="layout"
           :menuData="menuData"
+          :siderWidth="siderWidth"
           :collapsed="collapsed"
-          @onCollapse="() => (this.collapsed = !this.collapsed)"
+          :fixedHeader="fixedHeader"
+          @onCollapse="onCollapse"
         >
           <GlobalRightContent
             slot="rightContent"
@@ -62,7 +67,6 @@ import SiderMenuWrapper from "../components/SiderMenu/SiderMenuWrapper";
 import DefaultSettings from "../config/defaultSettings.js";
 import "./ProLayout.less";
 import HeaderView from "../components/Header/HeaderView";
-import logo from "../assets/logo.svg";
 import GlobalRightContent from "../components/Header/GlobalRightContent";
 import routes from "../router/routers.js";
 import FooterView from "../components/Footer/FooterView";
@@ -92,22 +96,32 @@ export default {
       default: 256
     },
     logo: {
-      default: logo
+      default: 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg'
+    },
+
+    /**
+     * 兼用 content的 margin
+     */
+    disableContentMargin:{
+
     }
   },
   data() {
     return {
       loading: false,
       colSize: "",
-      collapsed: false,
       mobile: false,
       title: DefaultSettings.title,
-      resizeObserver: null
+      resizeObserver: null,
+      hasSiderMenu:true,
     };
   },
   computed: {
     menuData() {
       return this.$store.state.menu.menuData;
+    },
+    collapsed(){
+      return this.$store.state.global.collapsed;
     },
     navTheme() {
       const navTheme = this.$store.state.setting.navTheme;
@@ -124,6 +138,9 @@ export default {
     layout() {
       return this.$store.state.setting.layout;
     },
+    fixedHeader(){
+      return this.$store.state.setting.fixedHeader;
+    },
     genLayoutStyle() {
       if (this.hide) {
         return "position: relative";
@@ -139,7 +156,7 @@ export default {
       return "";
     },
     contentClassName() {
-      return "";
+      return 'ant-pro-basicLayout-content ant-pro-basicLayout-has-header '+this.disableContentMargin?'ant-pro-basicLayout-content-disable-margin':'' ;
     },
     isChildrenLayout() {
       return false;
@@ -155,6 +172,9 @@ export default {
       this.colSize = useMediaQuery();
       this.mobile =
         (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
+    },
+    onCollapse(collapsed){
+      this.$store.commit('changeLayoutCollapsed',collapsed)
     }
   },
   mounted() {
