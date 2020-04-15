@@ -43,7 +43,9 @@
         :title="$t('app.setting.themecolor')"
         :value="setting.primaryColor"
         :colors="
-          themeList.colorList[setting.navTheme === 'realDark' ? 'dark' : 'light']
+          themeList.colorList[
+            setting.navTheme === 'realDark' ? 'dark' : 'light'
+          ]
         "
         @onChange="color => changeSetting('primaryColor', color)"
       />
@@ -82,61 +84,69 @@
         @changeSetting="changeSetting"
       />
       <a-divider />
-      <!--<Body title={formatMessage({ id: 'app.setting.navigationmode' })}>-->
-      <!--<BlockCheckbox-->
-      <!--value={layout}-->
-      <!--onChange={(value) => changeSetting('layout', value, hideLoading)}-->
-      <!--/>-->
-      <!--</Body>-->
-      <!--<LayoutSetting settings={settingState} changeSetting={changeSetting} />-->
-      <!--<Divider />-->
 
-      <!--<Body title={formatMessage({ id: 'app.setting.othersettings' })}>-->
-      <!--<List-->
-      <!--split={false}-->
-      <!--renderItem={renderLayoutSettingItem}-->
-      <!--dataSource={[-->
-      <!--{-->
-      <!--title: formatMessage({ id: 'app.setting.weakmode' }),-->
-      <!--action: (-->
-      <!--<Switch-->
-      <!--size="small"-->
-      <!--checked={!!colorWeak}-->
-      <!--onChange={(checked) => changeSetting('colorWeak', checked)}-->
-      <!--/>-->
-      <!--),-->
-      <!--},-->
-      <!--]}-->
-      <!--/>-->
-      <!--</Body>-->
-      <!--{hideHintAlert && hideCopyButton ? null : <Divider />}-->
+      <div :style="{ marginBottom: '24px' }">
+        <h3 class="ant-pro-setting-drawer-title">
+          {{ $t("app.setting.othersettings") }}
+        </h3>
+        <a-list
+          :split="false"
+          :dataSource="[
+            {
+              title: $t('app.setting.weakmode'),
+              action: 'weakmode'
+            },
+            {
+              title: $t('app.setting.blackwhitemode'),
+              action: 'blackwhitemode'
+            }
+          ]"
+          ><a-tooltip
+            slot="renderItem"
+            slot-scope="item"
+            :title="item.disabled ? item.disabledReason : ''"
+            placement="left"
+          >
+            <a-list-item>
+              <span :style="{ opacity: item.disabled ? 0.5 : 1 }">{{
+                item.title
+              }}</span>
+              <a-switch
+                slot="actions"
+                v-if="item.action === 'weakmode'"
+                size="small"
+                :checked="!!setting.colorWeak"
+                @change="checked => changeSetting('colorWeak', checked)"
+              />
+              <a-switch
+                slot="actions"
+                v-if="item.action === 'blackwhitemode'"
+                size="small"
+                :checked="!!setting.colorBlackWhite"
+                @change="checked => changeSetting('colorBlackWhite', checked)"
+              />
+            </a-list-item>
+          </a-tooltip>
+        </a-list>
+      </div>
+      <a-divider />
+      <a-alert
+        type="warning"
+        :message="$t('app.setting.production.hint')"
+        showIcon
+        :style="{ marginBottom: '16px' }"
+      >
+        <NotificationOutlined slot="icon" />
+      </a-alert>
 
-      <!--{hideHintAlert ? null : (-->
-      <!--<Alert-->
-      <!--type="warning"-->
-      <!--message={formatMessage({-->
-      <!--id: 'app.setting.production.hint',-->
-      <!--})}-->
-      <!--icon={<NotificationOutlined />}-->
-      <!--showIcon-->
-      <!--style={{ marginBottom: 16 }}-->
-      <!--/>-->
-      <!--)}-->
-
-      <!--{hideCopyButton ? null : (-->
-      <!--<CopyToClipboard-->
-      <!--text={genCopySettingJson(settingState)}-->
-      <!--onCopy={() =>-->
-      <!--message.success(formatMessage({ id: 'app.setting.copyinfo' }))-->
-      <!--}-->
-      <!--&gt;-->
-      <!--<Button block>-->
-      <!--<CopyOutlined /> {formatMessage({ id: 'app.setting.copy' })}-->
-      <!--</Button>-->
-      <!--</CopyToClipboard>-->
-      <!--)}-->
-      <CopyOutlined />
-      <NotificationOutlined />
+      <a-button
+        class="copy"
+        block
+        :data-clipboard-text="genCopySettingJson"
+        @click="copyClick"
+      >
+        <CopyOutlined />{{ $t("app.setting.copy") }}
+      </a-button>
     </div>
   </a-drawer>
 </template>
@@ -152,7 +162,8 @@ import "./SettingDrawer.less";
 import BlockCheckbox from "./BlockCheckbox";
 import ThemeColor from "./ThemeColor";
 import LayoutSetting from "./LayoutSetting";
-
+import omit from "omit.js";
+import ClipboardJS from "clipboard";
 export default {
   name: "SettingDrawer",
   props: {
@@ -169,7 +180,7 @@ export default {
   },
   data() {
     return {
-      show: true,
+      show: false,
       nextSetting: {},
       colorList: [
         {
@@ -205,6 +216,17 @@ export default {
           color: "#722ED1"
         }
       ],
+      themeConfig: {
+        daybreak: "daybreak",
+        "#1890ff": "daybreak",
+        "#F5222D": "dust",
+        "#FA541C": "volcano",
+        "#FAAD14": "sunset",
+        "#13C2C2": "cyan",
+        "#52C41A": "green",
+        "#2F54EB": "geekblue",
+        "#722ED1": "purple"
+      },
       themeList: {
         colorList: {
           light: this.colorList,
@@ -245,17 +267,43 @@ export default {
     changeSetting(key, value) {
       const nextState = { ...this.setting };
       nextState[key] = value;
-      this.$emit('onSettingChange',{ payload: nextState })
+      this.$emit("onSettingChange", { payload: nextState });
+    },
+    genStringToTheme(val) {
+      return val && this.themeConfig[val] ? this.themeConfig[val] : val;
+    },
+    copyClick() {}
+  },
+  computed: {
+    genCopySettingJson() {
+      return JSON.stringify(
+        omit(
+          {
+            ...this.setting,
+            primaryColor: this.genStringToTheme(this.setting.primaryColor)
+          },
+          ["colorWeak", "colorBlackWhite"]
+        ),
+        null,
+        2
+      );
     }
   },
-  watch: {
-    setting:{
-      handler(newVal, oldVal) {
-        console.log(newVal,oldVal)
-      },
-      immediate: true,
-      deep: true
-    }
-  }
+  mounted() {
+    let clipboard = new ClipboardJS(".copy");
+    clipboard.on("success", () => {
+      this.$message.success(this.$t("app.setting.copyinfo"));
+    });
+    clipboard.on("error", function() {});
+  },
+  // watch: {
+  //   setting: {
+  //     handler(newVal, oldVal) {
+  //       console.log(newVal, oldVal);
+  //     },
+  //     immediate: true,
+  //     deep: true
+  //   }
+  // }
 };
 </script>

@@ -98,15 +98,14 @@ export default {
       default: 256
     },
     logo: {
-      default: 'https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg'
+      default:
+        "https://gw.alipayobjects.com/zos/antfincdn/PmY%24TNNDBI/logo.svg"
     },
 
     /**
      * 兼用 content的 margin
      */
-    disableContentMargin:{
-
-    }
+    disableContentMargin: {}
   },
   data() {
     return {
@@ -115,14 +114,14 @@ export default {
       mobile: false,
       title: DefaultSettings.title,
       resizeObserver: null,
-      hasSiderMenu:true,
+      hasSiderMenu: true
     };
   },
   computed: {
     menuData() {
       return this.$store.state.menu.menuData;
     },
-    collapsed(){
+    collapsed() {
       return this.$store.state.global.collapsed;
     },
     navTheme() {
@@ -140,7 +139,7 @@ export default {
     layout() {
       return this.$store.state.setting.layout;
     },
-    fixedHeader(){
+    fixedHeader() {
       return this.$store.state.setting.fixedHeader;
     },
     genLayoutStyle() {
@@ -158,7 +157,10 @@ export default {
       return "";
     },
     contentClassName() {
-      return 'ant-pro-basicLayout-content ant-pro-basicLayout-has-header '+this.disableContentMargin?'ant-pro-basicLayout-content-disable-margin':'' ;
+      return "ant-pro-basicLayout-content ant-pro-basicLayout-has-header " +
+        this.disableContentMargin
+        ? "ant-pro-basicLayout-content-disable-margin"
+        : "";
     },
     isChildrenLayout() {
       return false;
@@ -175,11 +177,12 @@ export default {
       this.mobile =
         (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
     },
-    onCollapse(collapsed){
-      this.$store.commit('changeLayoutCollapsed',collapsed)
+    onCollapse(collapsed) {
+      this.$store.commit("changeLayoutCollapsed", collapsed);
     }
   },
   mounted() {
+    this.$store.commit("getSetting");
     this.$store.dispatch("fetchCurrent").then(() => {});
     this.$store.dispatch("getMenuData", { routes }).then(() => {});
     this.$nextTick(function() {

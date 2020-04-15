@@ -45,7 +45,7 @@ export default {
     menuData: {},
     collapsed: {},
     siderWidth: {},
-    fixSiderbar:{},
+    fixSiderbar: {},
     className: {},
     theme: {},
     hide: {

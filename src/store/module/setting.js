@@ -63,31 +63,54 @@ const updateTheme = primaryColor => {
 };
 
 const updateColorWeak = colorWeak => {
+    // const root = document.getElementById('root');
+    // if (root) {
+    //     root.className = colorWeak ? 'colorWeak' : '';
+    // }
   document.body.className = colorWeak ? "colorWeak" : "";
 };
 
+
+const updateColorBlackWhite = colorBlackWhite => {
+    // const root = document.getElementById('root');
+    // if (root) {
+    //     root.className = colorWeak ? 'colorWeak' : '';
+    // }
+    document.body.className = colorBlackWhite ? "colorBlackWhite" : "";
+};
 export default {
   namespace: "setting",
   state: defaultSettings,
   mutations: {
     getSetting(state) {
-      // const setting = {};
-      // const urlParams = new URL(window.location.href);
-      // Object.keys(state).forEach(key => {
-      //   if (urlParams.searchParams.has(key)) {
-      //     const value = urlParams.searchParams.get(key);
-      //     setting[key] = value === "1" ? true : value;
-      //   }
-      // });
-      // const { primaryColor, colorWeak } = setting;
-      // if (state.primaryColor !== primaryColor) {
-      //   updateTheme(primaryColor);
-      // }
-      // updateColorWeak(colorWeak);
-      // return {
-      //   ...state,
-      //   ...setting
-      // };
+      const setting = {};
+      const urlParams = new URL(window.location.href);
+      Object.keys(state).forEach(key => {
+        if (urlParams.searchParams.has(key)) {
+          const value = urlParams.searchParams.get(key);
+          setting[key] = value === "1" ? true : value;
+        }
+      });
+      const { primaryColor, colorWeak,colorBlackWhite } = setting;
+      if (state.primaryColor !== primaryColor) {
+        // updateTheme(primaryColor);
+      }
+      updateColorWeak(colorWeak);
+        updateColorBlackWhite(colorBlackWhite);
+     const   payload={
+            ...state,
+            ...setting
+        }
+
+        state.navTheme = payload.navTheme;
+        state.primaryColor = payload.primaryColor;
+        state.layout = payload.layout;
+        state.contentWidth = payload.contentWidth;
+        state.fixedHeader = payload.fixedHeader;
+        state.autoHideHeader = payload.autoHideHeader;
+        state.fixSiderbar = payload.fixSiderbar;
+        state.colorWeak = payload.colorWeak;
+        state.colorBlackWhite = payload.colorBlackWhite;
     },
     changeSetting(state, { payload }) {
       const urlParams = new URL(window.location.href);
@@ -108,7 +131,7 @@ export default {
           urlParams.searchParams.set(key, value);
         }
       });
-      const { primaryColor, colorWeak, contentWidth } = payload;
+      const { primaryColor, colorWeak,colorBlackWhite, contentWidth } = payload;
       if (state.primaryColor !== primaryColor) {
         // updateTheme(primaryColor);
       }
@@ -116,6 +139,7 @@ export default {
         window.dispatchEvent(new Event("resize"));
       }
       updateColorWeak(colorWeak);
+      updateColorBlackWhite(colorBlackWhite);
       window.history.replaceState(null, "setting", urlParams.href);
 
       // state = { ...payload };
@@ -127,6 +151,7 @@ export default {
         state.autoHideHeader = payload.autoHideHeader;
         state.fixSiderbar = payload.fixSiderbar;
         state.colorWeak = payload.colorWeak;
+        state.colorBlackWhite = payload.colorBlackWhite;
     }
   }
 };

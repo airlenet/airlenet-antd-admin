@@ -34,9 +34,7 @@
           v-if="item.action == 'fixed'"
           :value="contentWidth || 'Fixed'"
           size="small"
-          @select="
-            value => $emit('changeSetting', 'contentWidth', value)
-          "
+          @select="value => $emit('changeSetting', 'contentWidth', value)"
           :style="{ width: '80px' }"
         >
           {layout === 'sidemenu' ? null : (
@@ -54,18 +52,14 @@
           v-if="item.action == 'fixedheader'"
           size="small"
           @checked="!!fixedHeader"
-          @change="
-            checked => $emit('changeSetting', 'fixedHeader', checked)
-          "
+          @change="checked => $emit('changeSetting', 'fixedHeader', checked)"
         />
         <a-switch
           slot="actions"
           v-if="item.action == 'fixedsidebar'"
           size="small"
           :checked="!!fixSiderbar"
-          @change="
-            checked => $emit('changeSetting', 'fixSiderbar', checked)
-          "
+          @change="checked => $emit('changeSetting', 'fixSiderbar', checked)"
         />
       </a-list-item>
     </a-tooltip>

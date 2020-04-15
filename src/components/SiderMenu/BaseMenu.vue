@@ -79,9 +79,9 @@ export default {
       const defaultTitle = item.icon
         ? h("span", {}, [
             h("a-icon", { props: { type: item.icon } }),
-            h("span", [item.name])
+            h("span", [this.$t(item.locale)])
           ])
-        : h(item.name);
+        : h(this.$t(item.locale));
       if (
         Array.isArray(item.children) &&
         !item.hideChildrenInMenu &&

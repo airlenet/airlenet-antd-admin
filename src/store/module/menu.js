@@ -1,30 +1,45 @@
 /* eslint-disable */
 import { queryNotices } from "@/services/user";
-
+// import DefaultSettings from '../../config/defaultSettings';
+// import Vue from 'vue'
 /**
  * get SubMenu or Item
  */
-const getSubMenu = item => {
+const getSubMenu = (item,parentItem) => {
     // doc: add hideChildrenInMenu
+    let locale = 'menu';
+    if (parentItem && parentItem.locale !== '/') {
+        locale =`${parentItem.locale}.${item.name}`;
+    } else {
+        locale = `menu.${item.name}`;
+    }
+    // const name = DefaultSettings.menu.locale
+    //     ? locale
+    //     : item.name;
+
+    const result= {
+        ...item,
+        // name,
+        locale}
     if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
         return {
-            ...item,
-            children: filterMenuData(item.children), // eslint-disable-line
+            ...result,
+            children: filterMenuData(item.children,result), // eslint-disable-line
         };
     }
-    return item;
+    return result;
 };
 
 /**
  * filter menuData
  */
-const filterMenuData = menuData => {
+const filterMenuData = (menuData,parentItem=undefined) => {
     if (!menuData) {
         return [];
     }
     return menuData
         .filter(item => item.name && !item.hideInMenu)
-        .map(item => getSubMenu(item))
+        .map(item => getSubMenu(item,parentItem))
         .filter(item => item);
 };
 /**

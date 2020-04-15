@@ -33,9 +33,7 @@ export default {
   name: "SiderMenu",
   components: { BaseMenu },
   props: {
-    logo: {
-
-    },
+    logo: {},
     title: {},
     collapsed: {},
     fixSiderbar: {},
