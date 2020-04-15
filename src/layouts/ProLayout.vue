@@ -20,6 +20,8 @@
         :theme="navTheme"
         :menuData="menuData"
         :collapsed="collapsed"
+        :siderWidth="siderWidth"
+        :fixSiderbar="fixSiderbar"
         :logo="logo"
         :hide="hide"
         @onCollapse="onCollapse"

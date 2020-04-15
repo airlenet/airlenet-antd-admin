@@ -7,7 +7,7 @@
         placement="left"
         :class="['ant-pro-drawer-sider-menu']"
         :bodyStyle="{ padding: 0, height: '100vh' }"
-        width="siderWidth"
+        :width="siderWidth"
         @close="() => this.$emit('onCollapse', true)"
       >
         <SiderMenu
@@ -26,6 +26,7 @@
         :menuData="menuData"
         :title="title"
         :theme="theme"
+        :fixSiderbar="fixSiderbar"
         :logo="logo"
         :collapsed="collapsed"
       />
@@ -44,6 +45,7 @@ export default {
     menuData: {},
     collapsed: {},
     siderWidth: {},
+    fixSiderbar:{},
     className: {},
     theme: {},
     hide: {

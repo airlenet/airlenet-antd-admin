@@ -2,11 +2,9 @@
   <div>
   <a-layout-header v-if="fixedHeader"/>
   <a-layout-header
-    :style="{padding: '0px',zIndex: 9,width:needSettingWidth?'calc(100% - '+(collapsed ? 80 : siderWidth)+'px)':'auto',right:fixedHeader?'0px':'auto'}"
+    :style="{padding: '0px',zIndex: 9,width:needSettingWidth?'calc(100% - '+(collapsed ? 80 : siderWidth)+'px)':'100%',right:fixedHeader?'0px':'auto'}"
     :class="{ ['ant-pro-fixed-header']: fixedHeader, ['ant-pro-top-menu']: top }"
   >
-    <!--  {['right:0px']:fixedHeader}-->
-    <!--{['width:calc(100% - '+(collapsed ? 80 : siderWidth)+'px)']:needSettingWidth},-->
     <TopNavHeader
       v-if="top && !mobile"
       :logo="logo"
