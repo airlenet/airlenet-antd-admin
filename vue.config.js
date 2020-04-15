@@ -1,10 +1,11 @@
 // vue.config.js
 // import webpackPlugin from './plugin.config';
-const path = require('path')
+const path = require("path");
 
+// eslint-disable-next-line
 const resolve = dir => {
-    return path.join(__dirname, dir)
-}
+  return path.join(__dirname, dir);
+};
 
 module.exports = {
   // 选项...
@@ -14,12 +15,12 @@ module.exports = {
     loaderOptions: {
       // 向 CSS 相关的 loader 传递选项
       less: {
-          modifyVars: {
-              'primary-color': '#1DA57A',
-              'link-color': '#1DA57A',
-              'border-radius-base': '2px',
-          },
-        javascriptEnabled: true,
+        modifyVars: {
+          "primary-color": "#1DA57A",
+          "link-color": "#1DA57A",
+          "border-radius-base": "2px"
+        },
+        javascriptEnabled: true
       }
     }
   },
@@ -36,5 +37,5 @@ module.exports = {
         }
       }
     }
-  },
+  }
 };

@@ -35,13 +35,13 @@
         <!--'Page style setting'-->
         <BlockCheckbox
           :list="themeList.themeList"
-          :value="navTheme"
+          :value="setting.navTheme"
           @onChange="value => changeSetting('navTheme', value)"
         />
       </div>
       <ThemeColor
         :title="$t('app.setting.themecolor')"
-        :value="primaryColor"
+        :value="setting.primaryColor"
         :colors="
           themeList.colorList[navTheme === 'realDark' ? 'dark' : 'light']
         "
@@ -49,6 +49,31 @@
       />
 
       <a-divider />
+
+      <div :style="{ marginBottom: '24px' }">
+        <h3 class="ant-pro-setting-drawer-title">
+          {{ $t("app.setting.navigationmode") }}
+        </h3>
+        <!--'Page style setting'-->
+        <BlockCheckbox
+          :list="[
+            {
+              key: 'sidemenu',
+              url:
+                'https://gw.alipayobjects.com/zos/rmsportal/JopDzEhOqwOjeNTXkoje.svg',
+              title: $t('app.setting.sidemenu')
+            },
+            {
+              key: 'topmenu',
+              url:
+                'https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg',
+              title: $t('app.setting.topmenu')
+            }
+          ]"
+          :value="setting.layout"
+          @onChange="value => changeSetting('layout', value)"
+        />
+      </div>
 
       <!--<Body title={formatMessage({ id: 'app.setting.navigationmode' })}>-->
       <!--<BlockCheckbox-->
@@ -118,11 +143,13 @@ import {
 } from "@ant-design/icons-vue";
 import "./SettingDrawer.less";
 import BlockCheckbox from "./BlockCheckbox";
-import DefaultSettings from "../../config/defaultSettings.js";
 import ThemeColor from "./ThemeColor";
 
 export default {
   name: "SettingDrawer",
+  props: {
+    setting: {}
+  },
   components: {
     ThemeColor,
     BlockCheckbox,
@@ -133,9 +160,6 @@ export default {
   },
   data() {
     return {
-      navTheme: DefaultSettings.navTheme,
-      primaryColor: "daybreak",
-      layout: "sidemenu",
       show: true,
       nextSetting: {},
       colorList: [
@@ -202,13 +226,8 @@ export default {
   },
   created() {
     this.$route.query;
-    this.themeList.colorList.dark = this.colorList
-    this.themeList.colorList.light = this.colorList
-  },
-  computed: {
-    setting() {
-      return this.$store.state.setting;
-    }
+    this.themeList.colorList.dark = this.colorList;
+    this.themeList.colorList.light = this.colorList;
   },
   methods: {
     setShow(show) {

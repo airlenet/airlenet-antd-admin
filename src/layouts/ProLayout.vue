@@ -1,5 +1,17 @@
 <template>
-  <div class="ant-design-pro ant-pro-basicLayout screen-xl">
+  <div
+    :class="[
+      'ant-design-pro',
+      'ant-pro-basicLayout',
+      {
+        [`screen-${colSize}`]: colSize,
+        ['ant-pro-basicLayout-topmenu']: layout === 'topmenu',
+        ['ant-pro-basicLayout-is-children']: childrenLayout,
+        ['ant-pro-basicLayout-fix-siderbar']: fixSiderbar,
+        ['ant-pro-basicLayout-mobile']: mobile
+      }
+    ]"
+  >
     <a-layout style="minHeight:100%" :style="styleStr" hasSider>
       <SiderMenuWrapper
         :mobile="mobile"
@@ -7,6 +19,7 @@
         :theme="navTheme"
         :menuData="menuData"
         :collapsed="collapsed"
+        :hide="hide"
         @onCollapse="() => (this.collapsed = !this.collapsed)"
       />
       <a-layout :style="genLayoutStyle">
@@ -14,10 +27,18 @@
           :logo="logo"
           rightContent="RightContent"
           :mobile="mobile"
+          :title="title"
+          :theme="navTheme"
+          :layout="layout"
+          :menuData="menuData"
           :collapsed="collapsed"
           @onCollapse="() => (this.collapsed = !this.collapsed)"
         >
-          <GlobalRightContent slot="rightContent" />
+          <GlobalRightContent
+            slot="rightContent"
+            :theme="navTheme"
+            :layout="layout"
+          />
         </HeaderView>
         <WrapContent
           :className="contentClassName"
@@ -45,6 +66,7 @@ import logo from "../assets/logo.svg";
 import GlobalRightContent from "../components/Header/GlobalRightContent";
 import routes from "../router/routers.js";
 import FooterView from "../components/Footer/FooterView";
+import ResizeObserver from "resize-observer-polyfill";
 export default {
   name: "ProLayout",
   components: {
@@ -62,6 +84,15 @@ export default {
      */
     disableMobile: {
       default: false
+    },
+    childrenLayout: {
+      default: undefined
+    },
+    siderWidth: {
+      default: 256
+    },
+    logo: {
+      default: logo
     }
   },
   data() {
@@ -71,15 +102,37 @@ export default {
       collapsed: false,
       mobile: false,
       title: DefaultSettings.title,
-      navTheme: DefaultSettings.navTheme,
-      logo: logo
+      resizeObserver: null
     };
   },
   computed: {
     menuData() {
       return this.$store.state.menu.menuData;
     },
+    navTheme() {
+      const navTheme = this.$store.state.setting.navTheme;
+      return (navTheme || "dark").toLocaleLowerCase().includes("dark")
+        ? "dark"
+        : "light";
+    },
+    hide() {
+      return this.layout === "topmenu" && !this.mobile;
+    },
+    fixSiderbar() {
+      return this.$store.state.setting.fixSiderbar;
+    },
+    layout() {
+      return this.$store.state.setting.layout;
+    },
     genLayoutStyle() {
+      if (this.hide) {
+        return "position: relative";
+      }
+      const hasLeftPadding =
+        this.fixSiderbar && this.layout !== "topmenu" && !this.mobile;
+      if (hasLeftPadding) {
+        return "paddingLeft:" + (this.collapsed ? 80 : this.siderWidth) + "px";
+      }
       return "";
     },
     contentStyle() {
@@ -97,9 +150,28 @@ export default {
     this.mobile =
       (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
   },
+  methods: {
+    resize() {
+      this.colSize = useMediaQuery();
+      this.mobile =
+        (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
+    }
+  },
   mounted() {
     this.$store.dispatch("fetchCurrent").then(() => {});
     this.$store.dispatch("getMenuData", { routes }).then(() => {});
+    this.$nextTick(function() {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.resize();
+      });
+      this.resizeObserver.observe(document.body);
+    });
+  },
+  beforeDestroy() {
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(document.body);
+    }
+    this.resizeObserver = null;
   }
 };
 </script>

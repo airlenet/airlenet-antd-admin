@@ -1,14 +1,24 @@
 <template>
   <div class="theme-color" ref="{ref}">
-    <h3 class="theme-color-title">{{title}}</h3>
+    <h3 class="theme-color-title">{{ title }}</h3>
     <div class="theme-color-content">
       <a-tooltip
-        v-for="(item) in colors"
+        v-for="item in colors"
         :key="item.color"
-        :title=" genThemeToString(item.key) ? $t('app.setting.themecolor.' + genThemeToString(item.key)) : item.key "
+        :title="
+          genThemeToString(item.key)
+            ? $t('app.setting.themecolor.' + genThemeToString(item.key))
+            : item.key
+        "
       >
-        <div  class="theme-color-block" :style="{backgroundColor:item.color}" @click="() => $emit('onChange', item.key)" >
-          <CheckOutlined v-if="value === item.key || genThemeToString(value) === item.key" />
+        <div
+          class="theme-color-block"
+          :style="{ backgroundColor: item.color }"
+          @click="() => $emit('onChange', item.key)"
+        >
+          <CheckOutlined
+            v-if="value === item.key || genThemeToString(value) === item.key"
+          />
         </div>
       </a-tooltip>
     </div>
@@ -17,7 +27,7 @@
 
 <script>
 import { CheckOutlined } from "@ant-design/icons-vue";
-import './ThemeColor.less'
+import "./ThemeColor.less";
 export default {
   name: "ThemeColor",
   components: {
@@ -26,7 +36,7 @@ export default {
   props: {
     title: {},
     colors: {},
-    value:{}
+    value: {}
   },
   data() {
     return {
@@ -47,8 +57,7 @@ export default {
     genThemeToString(val) {
       return val && this.themeConfig[val] ? this.themeConfig[val] : val;
     }
-  },mounted(){
-
-  }
+  },
+  mounted() {}
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <ProLayout />
-    <SettingDrawer />
+    <SettingDrawer :setting="$store.state.setting" />
   </div>
 </template>
 

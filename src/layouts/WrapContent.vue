@@ -61,7 +61,7 @@ export default {
       this.resizeObserver.observe(document.body);
     });
   },
-  destroyed() {
+  beforeDestroy() {
     if (this.resizeObserver) {
       this.resizeObserver.unobserve(this.mainContentEL);
     }

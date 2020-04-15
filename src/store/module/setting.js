@@ -1,3 +1,4 @@
+/* eslint-disable */
 import defaultSettings from "../../config/defaultSettings";
 import {message} from 'ant-design-vue'
 let lessNodesAppended;
@@ -70,23 +71,23 @@ export default {
   state: defaultSettings,
   mutations: {
     getSetting(state) {
-      const setting = {};
-      const urlParams = new URL(window.location.href);
-      Object.keys(state).forEach(key => {
-        if (urlParams.searchParams.has(key)) {
-          const value = urlParams.searchParams.get(key);
-          setting[key] = value === "1" ? true : value;
-        }
-      });
-      const { primaryColor, colorWeak } = setting;
-      if (state.primaryColor !== primaryColor) {
-        updateTheme(primaryColor);
-      }
-      updateColorWeak(colorWeak);
-      return {
-        ...state,
-        ...setting
-      };
+      // const setting = {};
+      // const urlParams = new URL(window.location.href);
+      // Object.keys(state).forEach(key => {
+      //   if (urlParams.searchParams.has(key)) {
+      //     const value = urlParams.searchParams.get(key);
+      //     setting[key] = value === "1" ? true : value;
+      //   }
+      // });
+      // const { primaryColor, colorWeak } = setting;
+      // if (state.primaryColor !== primaryColor) {
+      //   updateTheme(primaryColor);
+      // }
+      // updateColorWeak(colorWeak);
+      // return {
+      //   ...state,
+      //   ...setting
+      // };
     },
     changeSetting(state, { payload }) {
       const urlParams = new URL(window.location.href);
@@ -109,7 +110,7 @@ export default {
       });
       const { primaryColor, colorWeak, contentWidth } = payload;
       if (state.primaryColor !== primaryColor) {
-        updateTheme(primaryColor);
+        // updateTheme(primaryColor);
       }
       if (state.contentWidth !== contentWidth && window.dispatchEvent) {
         window.dispatchEvent(new Event("resize"));
@@ -117,7 +118,10 @@ export default {
       updateColorWeak(colorWeak);
       window.history.replaceState(null, "setting", urlParams.href);
 
-      state = { ...payload };
+      // state = { ...payload };
+        state.navTheme = payload.navTheme;
+        state.layout = payload.layout;
     }
   }
 };
+/* eslint-enable */

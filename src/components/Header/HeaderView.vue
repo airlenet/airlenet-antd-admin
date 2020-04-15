@@ -3,12 +3,23 @@
     :style="styleStr"
     :class="{ 'ant-pro-fixed-header': fixedHeader, 'ant-pro-top-menu': top() }"
   >
-    <TopNavHeader v-if="top() && !mobile" :logo="logo" />
+    <TopNavHeader
+      v-if="top() && !mobile"
+      :logo="logo"
+      :title="title"
+      :theme="theme"
+      :menuData="menuData"
+      mode="horizontal"
+    >
+      <template slot="rightContent">
+        <slot name="rightContent"></slot
+      ></template>
+    </TopNavHeader>
     <GlobalHeader
       v-else
       @onCollapse="
-        collapsed => {
-          this.$emit('onCollapse', collapsed);
+        c => {
+          this.$emit('onCollapse', c);
         }
       "
       :rightContent="rightContent"
@@ -36,9 +47,12 @@ export default {
     hasSiderMenu: {},
     siderWidth: {},
     mobile: {},
+    theme: {},
     logo: {},
     collapsed: {},
-    rightContent: {}
+    rightContent: {},
+    title: {},
+    menuData: {}
   },
   computed: {
     styleStr() {

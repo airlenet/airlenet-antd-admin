@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!hide">
     <template v-if="mobile">
       <a-drawer
         :visible="!collapsed"
@@ -43,8 +43,15 @@ export default {
     siderWidth: {},
     className: {},
     theme: {},
-    hide: {},
+    hide: {
+      default: false
+    },
     title: {}
+  },
+  watch: {
+    hide(val) {
+      console.log("hide = " + val);
+    }
   }
 };
 </script>
