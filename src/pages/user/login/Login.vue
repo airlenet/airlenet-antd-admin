@@ -179,7 +179,7 @@ import styles from "./Login.module.less";
 import stylesFrom from "./LoginForm.module.less";
 
 import { getFakeCaptcha } from "@/services/login";
-
+import { mapState } from "vuex";
 export default {
   name: "Login",
   components: {
@@ -195,7 +195,6 @@ export default {
     return {
       styles,
       stylesFrom,
-      submitting: false,
       autoLogin: true,
       register: "",
       loginType: "account",
@@ -207,6 +206,11 @@ export default {
   },
   beforeCreate() {
     // this.form = this.$form.createForm(this, { name: "login" });
+  },
+  computed: {
+    ...mapState({
+      submitting: state => state.loading.effects["user/login"]
+    })
   },
   methods: {
     setAutoLogin(checked) {
@@ -226,15 +230,11 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
-
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
-          this.submitting = true;
           this.$store
-            .dispatch("handleLogin", { ...values, type: this.loginType })
+            .dispatch("user/login", { ...values, type: this.loginType })
             .then(data => {
-              this.submitting = false;
               if (data.status == "ok") {
                 //
               } else {
@@ -242,7 +242,6 @@ export default {
               }
             })
             .catch(err => {
-              this.submitting = false;
               console.log(err);
             });
         }

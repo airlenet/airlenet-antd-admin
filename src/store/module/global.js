@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { queryNotices } from "@/services/user";
 export default {
+  namespaced: true,
   namespace: "global",
   state: {
     collapsed: false,
@@ -9,24 +10,20 @@ export default {
   mutations: {
     changeLayoutCollapsed(state,collapsed) {
       state.collapsed = collapsed;
-      // state.notices = [];
     },
     saveNotices(state, payload) {
-      state.collapsed = false;
       state.notices = payload;
     }
   },
   actions: {
-    fetchNotices({ commit }) {
+    fetchNotices(store) {
+      const { commit, dispatch, state, rootState,rootGetters } = store
       return new Promise((resolve, reject) => {
         queryNotices()
           .then(data => {
-            commit("saveNotices", data);
-
+                commit("saveNotices", data);
               const unreadCount= data.filter(item => !item.read).length
-
-              commit("changeNotifyCount", {totalCount: data.length,unreadCount});
-
+              commit("user/changeNotifyCount", {totalCount: data.length,unreadCount},{root: true});
             resolve(data);
           })
           .catch(err => {

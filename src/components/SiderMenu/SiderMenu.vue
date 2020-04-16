@@ -16,10 +16,13 @@
       </a>
     </div>
     <!--flatMenus-->
+    <PageLoading v-if="!menuData || menuData.length == 0" />
     <BaseMenu
+      v-else
       :menuData="menuData"
       mode="inline"
       :theme="theme"
+      :flatMenuKeys="flatMenuKeys"
       style="padding: 16px 0; width: 100%"
       @handleOpenChange="openKeys => this.$emit('onOpenChange', openKeys)"
     />
@@ -29,9 +32,11 @@
 <script>
 import "./SideMenu.less";
 import BaseMenu from "./BaseMenu";
+
+import PageLoading from "../PageLoading";
 export default {
   name: "SiderMenu",
-  components: { BaseMenu },
+  components: { BaseMenu, PageLoading },
   props: {
     logo: {},
     title: {},
@@ -41,6 +46,7 @@ export default {
     siderWidth: {
       default: 256
     },
+    flatMenuKeys: {},
     menuData: {},
     mobile: {},
     className: {},

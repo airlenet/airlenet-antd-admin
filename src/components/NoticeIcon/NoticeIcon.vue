@@ -67,7 +67,8 @@ export default {
     viewMoreText: {},
     showViewMore: {},
     count: {},
-    className: {}
+    className: {},
+    loading: {}
   },
   components: {
     NoticeIconTab,
@@ -77,7 +78,6 @@ export default {
   data() {
     return {
       styles,
-      loading: false,
       visible: false
     };
   },
@@ -88,9 +88,6 @@ export default {
     setVisible(visible) {
       this.visible = visible;
     }
-  },
-  mounted() {
-    console.log(this.$slots.default);
   }
 };
 </script>

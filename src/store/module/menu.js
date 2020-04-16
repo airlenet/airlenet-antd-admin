@@ -66,6 +66,7 @@ const getBreadcrumbNameMap = menuData => {
 };
 
 export default {
+    namespaced: true,
     namespace: "menu",
     state: {
         menuData: [],
@@ -84,8 +85,8 @@ export default {
             const originalMenuData =  routes[1].children;
             const menuData = filterMenuData(originalMenuData);
             const breadcrumbNameMap = getBreadcrumbNameMap(originalMenuData);
-
-            commit("save", { menuData, breadcrumbNameMap, routerData: routes });
+            setTimeout(()=>{commit("save", { menuData, breadcrumbNameMap, routerData: routes })},2000)
+            ;
         },
     }
 };

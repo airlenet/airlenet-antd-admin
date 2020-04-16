@@ -1,3 +1,4 @@
+//runtime
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
@@ -9,6 +10,8 @@ import "./app.less";
 Vue.config.productionTip = false;
 
 Vue.use(Antd);
+
+Vue.prototype.bus = new Vue();
 
 /* eslint-disable no-new */
 new Vue({

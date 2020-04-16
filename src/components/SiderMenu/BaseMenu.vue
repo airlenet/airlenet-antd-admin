@@ -1,115 +1,102 @@
-<!--<template>-->
-<!--<a-menu-->
-<!--key="Menu"-->
-<!--:mode="mode"-->
-<!--:defaultOpenKeys="[]"-->
-<!--:theme="theme"-->
-<!--:selectedKeys="selectedKeys"-->
-<!--:style="styleStr"-->
-<!--:class="[{ ['top-nav-menu']: mode === 'horizontal' }, className]"-->
-<!--@onOpenChange="setOpenKeys"-->
-<!--&gt;-->
-<!--<template v-for="item in menuData">-->
-<!--&lt;!&ndash;<SubMenuItem&ndash;&gt;-->
-<!--&lt;!&ndash;v-if="&ndash;&gt;-->
-<!--&lt;!&ndash;Array.isArray(item.children) &&&ndash;&gt;-->
-<!--&lt;!&ndash;!item.hideChildrenInMenu &&&ndash;&gt;-->
-<!--&lt;!&ndash;item.children.some(child => child && !!child.name)&ndash;&gt;-->
-<!--&lt;!&ndash;"&ndash;&gt;-->
-<!--&lt;!&ndash;:parentItem="item"&ndash;&gt;-->
-<!--&lt;!&ndash;:parentMenu="$refs.Menu"&ndash;&gt;-->
-<!--&lt;!&ndash;/>&ndash;&gt;-->
-<!--<a-sub-menu   v-if="-->
-<!--Array.isArray(item.children) &&-->
-<!--!item.hideChildrenInMenu &&-->
-<!--item.children.some(child => child && !!child.name)-->
-<!--" :key="item.key">-->
-<!--<span slot="title"-->
-<!--&gt;<a-icon :type="item.icon" /><span>{{ item.name }}</span></span-->
-<!--&gt;-->
-
-<!--&lt;!&ndash;<template v-for="item in children">&ndash;&gt;-->
-<!--&lt;!&ndash;<SubMenuItem&ndash;&gt;-->
-<!--&lt;!&ndash;v-if="&ndash;&gt;-->
-<!--&lt;!&ndash;Array.isArray(item.children)&ndash;&gt;-->
-<!--&lt;!&ndash;"&ndash;&gt;-->
-<!--&lt;!&ndash;title="{title}"&ndash;&gt;-->
-<!--&lt;!&ndash;:key="item.key || item.path"&ndash;&gt;-->
-<!--&lt;!&ndash;onTitleClick="{item.onTitleClick}"&ndash;&gt;-->
-<!--&lt;!&ndash;:parentItem="item"&ndash;&gt;-->
-<!--&lt;!&ndash;/>&ndash;&gt;-->
-<!--&lt;!&ndash;<a-menu-item   :key="item.key || item.path">&ndash;&gt;-->
-<!--&lt;!&ndash;<a-icon :type="item.icon" />&ndash;&gt;-->
-<!--&lt;!&ndash;<span>{{ item.name }}</span>&ndash;&gt;-->
-<!--&lt;!&ndash;</a-menu-item>&ndash;&gt;-->
-<!--&lt;!&ndash;</template>&ndash;&gt;-->
-<!--</a-sub-menu>-->
-<!--<a-menu-item  v-else :key="item.key || item.path">-->
-<!--<a-icon :type="item.icon" />-->
-<!--<span>{{ item.name }}</span>-->
-<!--</a-menu-item>-->
-<!--</template>-->
-<!--</a-menu>-->
-<!--</template>-->
-
+<template>
+  <a-menu
+    key="Menu"
+    :mode="mode"
+    :defaultOpenKeys="defaultOpenKeys"
+    :defaultSelectedKeys="defaultSelectedKeys"
+    :theme="theme"
+    :selectedKeys="selectedKeys"
+    :style="styleStr"
+    :class="[{ ['top-nav-menu']: mode === 'horizontal' }, className]"
+    @openChange="setOpenKeys"
+    @select="setSelects"
+  >
+    <template v-for="item in menuData">
+      <a-menu-item v-if="!item.children" :key="item.key || item.path">
+        <template v-if="item.icon">
+          <a-icon :type="item.icon" />
+          <span>{{ $t(item.locale) }}</span>
+        </template>
+        <template v-else>
+          {{ $t(item.locale) }}
+        </template>
+      </a-menu-item>
+      <base-sub-menu v-else :menu-info="item" :key="item.key || item.path" />
+    </template>
+  </a-menu>
+</template>
 <script>
-import SubMenuItem from "./SubMenuItem";
+import BaseSubMenu from "./BaseSubMenu";
+import pathToRegexp from "path-to-regexp";
 export default {
   name: "BaseMenu",
-  components: { SubMenuItem },
+  components: {
+    BaseSubMenu: BaseSubMenu
+  },
   props: {
     collapsed: {},
     menuData: {},
     mode: {},
     theme: {},
     styleStr: {},
-    className: {}
+    className: {},
+    flatMenuKeys: {},
+
+    location: {}
   },
   data() {
     return {
       openKeys: [],
-      selectedKeys: []
+      selectedKeys: [],
+      defaultOpenKeys: [],
+      defaultSelectedKeys: []
     };
+  },
+  created() {
+    this.selectedKeys = this.getSelectedMenuKeys(window.location.pathname);
+    this.defaultSelectedKeys = [...this.selectedKeys];
+    this.defaultOpenKeys = this.defaultSelectedKeys.concat([]);
+    this.defaultOpenKeys.pop();
   },
   methods: {
     setOpenKeys(keys) {
       this.openKeys = keys;
     },
-    getSubMenuOrItem(h, item) {
-      const defaultTitle = item.icon
-        ? h("span", {}, [
-            h("a-icon", { props: { type: item.icon } }),
-            h("span", [this.$t(item.locale)])
-          ])
-        : h(this.$t(item.locale));
-      if (
-        Array.isArray(item.children) &&
-        !item.hideChildrenInMenu &&
-        item.children.some(child => child && !!child.name)
-      ) {
-        return h(
-          "a-sub-menu",
-          { props: { key: item.key || item.path, title: defaultTitle } },
-          this.getNavMenuItems(h, item.children)
-        );
-      } else {
-        return h("a-menu-item", [h("span", [defaultTitle])]);
-      }
+    //eslint-disable-next-line
+    setSelects({ item, key, selectedKeys }){
+      this.selectedKeys = selectedKeys;
+      this.bus.$emit("onSelect", key);
     },
-    getNavMenuItems(h, menuData) {
-      const navMenuItems = menuData.map(item => this.getSubMenuOrItem(h, item));
-      return navMenuItems;
+    getSelectedMenuKeys(pathname) {
+      const { flatMenuKeys } = this.$props;
+      function urlToList(url) {
+        const urllist = url.split("/").filter(i => i);
+        return urllist.map(
+          (urlItem, index) => `/${urllist.slice(0, index + 1).join("/")}`
+        );
+      }
+      const getMenuMatches = (flatMenuKeys, path) => {
+        return flatMenuKeys.filter(item => {
+          if (item) {
+            return pathToRegexp(item).test(path);
+          }
+          return false;
+        });
+      };
+      return urlToList(pathname).map(itemPath =>
+        getMenuMatches(flatMenuKeys, itemPath).pop()
+      );
+    },
+
+    conversionPath(path) {
+      if (path && path.indexOf("http") === 0) {
+        return path;
+      }
+      return `/${path || ""}`.replace(/\/+/g, "/");
     }
   },
-  render: function() {
-    var h = arguments[0];
-    const navMenuItems = this.getNavMenuItems(h, this.menuData);
-
-    return h(
-      "a-menu",
-      { props: { key: "Menu", mode: this.mode, theme: this.theme } },
-      navMenuItems
-    );
+  mounted() {
+    this.$nextTick(() => {});
   }
 };
 </script>

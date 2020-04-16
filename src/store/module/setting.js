@@ -79,6 +79,7 @@ const updateColorBlackWhite = colorBlackWhite => {
     document.body.className = colorBlackWhite ? "colorBlackWhite" : "";
 };
 export default {
+    namespaced: true,
   namespace: "setting",
   state: defaultSettings,
   mutations: {

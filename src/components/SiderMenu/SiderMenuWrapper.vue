@@ -16,6 +16,7 @@
           :title="title"
           :theme="theme"
           :logo="logo"
+          :flatMenuKeys="getFlatMenuKeys(menuData)"
           :collapsed="mobile ? false : collapsed"
         />
       </a-drawer>
@@ -28,6 +29,7 @@
         :theme="theme"
         :fixSiderbar="fixSiderbar"
         :logo="logo"
+        :flatMenuKeys="getFlatMenuKeys(menuData)"
         :collapsed="collapsed"
       />
     </template>
@@ -52,6 +54,20 @@ export default {
       default: false
     },
     title: {}
+  },
+  computed: {
+    getFlatMenuKeys() {
+      return function(menuData) {
+        let keys = [];
+        menuData.forEach(item => {
+          keys.push(item.path);
+          if (item.children) {
+            keys = keys.concat(this.getFlatMenuKeys(item.children));
+          }
+        });
+        return keys;
+      };
+    }
   },
   watch: {
     hide(val) {

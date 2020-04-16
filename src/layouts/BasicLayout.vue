@@ -5,7 +5,7 @@
       :setting="$store.state.setting"
       @onSettingChange="
         payload => {
-          $store.commit('changeSetting', payload);
+          $store.commit('setting/changeSetting', payload);
         }
       "
     />

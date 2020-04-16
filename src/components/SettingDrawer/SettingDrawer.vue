@@ -295,7 +295,7 @@ export default {
       this.$message.success(this.$t("app.setting.copyinfo"));
     });
     clipboard.on("error", function() {});
-  },
+  }
   // watch: {
   //   setting: {
   //     handler(newVal, oldVal) {

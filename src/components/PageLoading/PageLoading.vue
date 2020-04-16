@@ -1,5 +1,5 @@
 <template>
-  <div style="paddingTop: 100px; textAlign: 'center'">
+  <div :style="{ paddingTop: '100px', textAlign: 'center' }">
     <a-spin size="large" :tip="tip" />
   </div>
 </template>
@@ -12,5 +12,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

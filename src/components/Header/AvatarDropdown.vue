@@ -40,11 +40,7 @@
     </HeaderDropdown>
 
     <span v-else :class="{ [styles.action]: true, [styles.account]: true }">
-      <a-spin
-        size="small"
-        style=" margin-left: 8px;  margin-right: 8px
-               "
-      />
+      <a-spin size="small" style=" margin-left: 8px;  margin-right: 8px" />
     </span>
   </div>
 </template>

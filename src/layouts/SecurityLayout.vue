@@ -24,7 +24,7 @@ export default {
   },
   mounted() {
     this.userLoading = true;
-    this.$store.dispatch("fetchCurrent").then(() => {
+    this.$store.dispatch("user/fetchCurrent").then(() => {
       this.userLoading = false;
     });
   }

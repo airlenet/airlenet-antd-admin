@@ -47,16 +47,20 @@ import NoticeIcon from "../NoticeIcon/NoticeIcon";
 import NoticeIconTab from "../NoticeIcon/NoticeIconTab";
 import groupBy from "lodash/groupBy";
 import styles from "./index.module.less";
+import { mapState } from "vuex";
+
 export default {
   name: "NoticeIconView",
   components: { NoticeIconTab, NoticeIcon },
   data() {
     return {
-      styles,
-      fetchingNotices: false
+      styles
     };
   },
   computed: {
+    ...mapState({
+      fetchingNotices: state => state.loading.effects.fetchNotices
+    }),
     collapsed() {
       return this.$store.state.global.collapsed;
     },
@@ -136,10 +140,7 @@ export default {
     changeReadState() {}
   },
   mounted() {
-    this.fetchingNotices = true;
-    this.$store.dispatch("fetchNotices").then(() => {
-      this.fetchingNotices = false;
-    });
+    this.$store.dispatch("global/fetchNotices").then(() => {});
   }
 };
 </script>

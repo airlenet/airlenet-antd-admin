@@ -5,6 +5,8 @@ import { getPageQuery } from '@/utils/utils';
 import router from "../../router"
 import { stringify } from 'querystring';
 export default {
+  namespaced: true,
+  namespace: "user",
   state: {
       currentUser:{
 
@@ -22,7 +24,7 @@ export default {
       },
   },
   actions: {
-    handleLogin({ commit }, { userName, password, captcha, type }) {
+      login({ commit }, { userName, password, captcha, type }) {
       return new Promise((resolve, reject) => {
         fakeAccountLogin({
             userName,
@@ -79,24 +81,6 @@ export default {
               // });
           }
       },
-    getUserInfo({ state, commit }) {
-      return new Promise((resolve, reject) => {
-        resolve(data);
-        // login({
-        //     username,
-        //     password
-        // }, {
-        //     captchaId,
-        //     code
-        // }).then(res => {
-        //     const data = res.data
-        //     commit('setToken', data.result)
-        //     resolve(data)
-        // }).catch(err => {
-        //     reject(err)
-        // })
-      });
-    }
   }
 };
 /* eslint-enable */

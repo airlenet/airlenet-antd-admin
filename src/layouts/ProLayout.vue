@@ -114,7 +114,8 @@ export default {
       mobile: false,
       title: DefaultSettings.title,
       resizeObserver: null,
-      hasSiderMenu: true
+      hasSiderMenu: true,
+      location: { pathname: "/" }
     };
   },
   computed: {
@@ -179,18 +180,29 @@ export default {
     },
     onCollapse(collapsed) {
       this.$store.commit("changeLayoutCollapsed", collapsed);
+    },
+    onMenuClick(key) {
+      console.log(key);
+      this.$router.push({path:key})
     }
   },
   mounted() {
-    this.$store.commit("getSetting");
-    this.$store.dispatch("fetchCurrent").then(() => {});
-    this.$store.dispatch("getMenuData", { routes }).then(() => {});
+    this.$store.commit("setting/getSetting");
+    this.$store.dispatch("user/fetchCurrent").then(() => {});
+    this.$store.dispatch("menu/getMenuData", { routes }).then(() => {});
     this.$nextTick(function() {
       this.resizeObserver = new ResizeObserver(() => {
         this.resize();
       });
       this.resizeObserver.observe(document.body);
+      this.bus.$on("onSelect",this.onMenuClick)
     });
+  },
+  watch: {
+    //eslint-disable-next-line
+    $route(to, from) {
+      this.location.pathname = window.location.pathname
+    }
   },
   beforeDestroy() {
     if (this.resizeObserver) {
