@@ -53,7 +53,7 @@
           :style="contentStyle"
         >
           <PageLoading v-if="loading" />
-          <router-view v-else />
+          <router-view v-else :contentWidth="contentWidth" />
         </WrapContent>
         <FooterView />
       </a-layout>
@@ -140,6 +140,9 @@ export default {
     layout() {
       return this.$store.state.setting.layout;
     },
+    contentWidth() {
+      return this.$store.state.setting.contentWidth;
+    },
     fixedHeader() {
       return this.$store.state.setting.fixedHeader;
     },
@@ -179,11 +182,11 @@ export default {
         (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
     },
     onCollapse(collapsed) {
-      this.$store.commit("changeLayoutCollapsed", collapsed);
+      this.$store.commit("global/changeLayoutCollapsed", collapsed);
     },
     onMenuClick(key) {
       console.log(key);
-      this.$router.push({path:key})
+      this.$router.push({ path: key });
     }
   },
   mounted() {
@@ -195,13 +198,13 @@ export default {
         this.resize();
       });
       this.resizeObserver.observe(document.body);
-      this.bus.$on("onSelect",this.onMenuClick)
+      this.bus.$on("onSelect", this.onMenuClick);
     });
   },
   watch: {
     //eslint-disable-next-line
     $route(to, from) {
-      this.location.pathname = window.location.pathname
+      this.location.pathname = window.location.pathname;
     }
   },
   beforeDestroy() {

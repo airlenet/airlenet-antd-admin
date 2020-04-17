@@ -40,7 +40,12 @@ export default {
     theme: {},
     styleStr: {},
     className: {},
-    flatMenuKeys: {},
+    flatMenuKeys: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
 
     location: {}
   },

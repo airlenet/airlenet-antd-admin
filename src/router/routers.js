@@ -69,7 +69,7 @@ export default [
             name: "basic-form",
             icon: "smile",
             path: "/form/basic-form",
-            component: () => import("@/pages/dashboard/analysis")
+            component: () => import("@/pages/form/basic-form")
           },
           {
             name: "step-form",

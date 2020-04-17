@@ -21,7 +21,7 @@ export default {
       return new Promise((resolve, reject) => {
         queryNotices()
           .then(data => {
-                commit("saveNotices", data);
+              commit("saveNotices", data);
               const unreadCount= data.filter(item => !item.read).length
               commit("user/changeNotifyCount", {totalCount: data.length,unreadCount},{root: true});
             resolve(data);

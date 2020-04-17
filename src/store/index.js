@@ -6,11 +6,12 @@ import menu from "./module/menu";
 import setting from "./module/setting.js";
 import createLoadingPlugin from "./plugin/loading";
 Vue.use(Vuex);
-
-export default new Vuex.Store({
+const store = new Vuex.Store({
   plugins: [createLoadingPlugin()],
   state: {},
   mutations: {},
   actions: {},
   modules: { global, user, menu, setting }
 });
+
+export default store;

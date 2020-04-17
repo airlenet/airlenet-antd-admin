@@ -16,6 +16,7 @@
 
       <div style="flex: 1" :class="`${baseClassName}-menu`">
         <BaseMenu
+          v-if="menuData && menuData.length != 0"
           :menuData="menuData"
           :theme="theme"
           :mode="mode"

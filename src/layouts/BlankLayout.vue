@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <router-view v-bind="$props" />
 </template>
 
 <script>
 export default {
-  name: "BlankLayout"
+  name: "BlankLayout",
+  props: {
+    contentWidth: {}
+  }
 };
 </script>
-
-<style scoped></style>
