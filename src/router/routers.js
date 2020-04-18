@@ -116,7 +116,7 @@ export default [
                 name: "applications",
                 icon: "smile",
                 path: "/list/search/applications",
-                component: () => import("@/pages/list/search/applications")
+                component: () => import("@/pages/list/search/applications/index.jsx")
               }
             ]
           },
@@ -124,7 +124,7 @@ export default [
             name: "table-list",
             icon: "smile",
             path: "/list/table-list",
-            component: () => import("@/pages/list/table-list")
+            component: () => import("@/pages/list/table-list/index.jsx")
           },
           {
             name: "basic-list",
