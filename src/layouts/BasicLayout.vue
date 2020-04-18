@@ -16,11 +16,11 @@
 import ProLayout from "./ProLayout";
 import SettingDrawer from "../components/SettingDrawer/SettingDrawer";
 import logo from "../assets/logo.svg";
-import { Fragment } from 'vue-fragment'
+import { Fragment } from "vue-fragment";
 
 export default {
   name: "BasicLayout",
-  components: { SettingDrawer, ProLayout ,Fragment},
+  components: { SettingDrawer, ProLayout, Fragment },
   data() {
     return {
       logo

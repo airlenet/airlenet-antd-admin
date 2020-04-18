@@ -50,7 +50,7 @@
 <script>
 import TopNavHeader from "../TopNavHeader/TopNavHeader";
 import GlobalHeader from "./GlobalHeader";
-import { Fragment } from 'vue-fragment'
+import { Fragment } from "vue-fragment";
 import "./Header.less";
 export default {
   name: "HeaderView",
