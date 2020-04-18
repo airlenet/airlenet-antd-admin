@@ -1,7 +1,7 @@
 <template>
   <PageHeaderWrapper
     :contentWidth="contentWidth"
-    :content="this.$t('formandbasic-form.basic.description')"
+    :content="$t('formandbasic-form.basic.description')"
     :title="$t('formandbasic-form.basic.title')"
   >
     <a-card :bordered="false">
