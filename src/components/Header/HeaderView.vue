@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <fragment>
     <a-layout-header v-if="fixedHeader" />
     <a-layout-header
       :style="{
@@ -44,16 +44,18 @@
         ></template>
       </GlobalHeader>
     </a-layout-header>
-  </div>
+  </fragment>
 </template>
 
 <script>
 import TopNavHeader from "../TopNavHeader/TopNavHeader";
 import GlobalHeader from "./GlobalHeader";
+import { Fragment } from 'vue-fragment'
 import "./Header.less";
 export default {
   name: "HeaderView",
-  components: { GlobalHeader, TopNavHeader },
+  //eslint-disable-next-line
+  components: { GlobalHeader, TopNavHeader ,Fragment},
   props: {
     fixedHeader: {},
     layout: {},
