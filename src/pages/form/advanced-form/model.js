@@ -2,10 +2,10 @@ import { message } from "ant-design-vue";
 import { fakeSubmitForm } from "./service";
 
 const Model = {
-    namespaced: true,
+  namespaced: true,
   namespace: "formAndadvancedForm",
   state: {},
-    actions: {
+  actions: {
     //eslint-disable-next-line
    async submitAdvancedForm({ commit },{ payload }) {
       await fakeSubmitForm(payload);

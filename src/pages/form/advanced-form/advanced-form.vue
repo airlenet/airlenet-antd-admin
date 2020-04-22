@@ -6,7 +6,6 @@
     :model="form"
     :rules="rules"
   >
-    
     <PageHeaderWrapper
       title="高级表单"
       content="高级表单常见于一次性输入和提交大批量数据的场景。"
@@ -18,7 +17,7 @@
               :label="fieldLabels.name"
               htmlFor="name"
               prop="name"
-              :rules="[ {  required: true,  message: '请输入仓库名称' } ]"
+              :rules="[{ required: true, message: '请输入仓库名称' }]"
             >
               <a-input v-model="form.name" placeholder="请输入仓库名称" />
             </a-form-model-item>
@@ -102,10 +101,7 @@
                 }
               ]"
             >
-              <a-select
-                placeholder="请选择审批员"
-                v-model="form.approver"
-              >
+              <a-select placeholder="请选择审批员" v-model="form.approver">
                 <a-select-option value="xiao">付晓晓</a-select-option>
                 <a-select-option value="mao">周毛毛</a-select-option>
               </a-select>
@@ -168,7 +164,7 @@
                 }
               ]"
             >
-              <a-select placeholder="请选择仓库类型"  v-model="form.type">
+              <a-select placeholder="请选择仓库类型" v-model="form.type">
                 <a-select-option value="private">私密</a-select-option>
                 <a-select-option value="public">公开</a-select-option>
               </a-select>
@@ -191,7 +187,7 @@
                 }
               ]"
             >
-              <a-input placeholder="请输入"  v-model="form.name2" />
+              <a-input placeholder="请输入" v-model="form.name2" />
             </a-form-model-item>
           </a-col>
           <a-col
@@ -218,7 +214,7 @@
                 }
               ]"
             >
-              <a-input placeholder="请输入"  v-model="form.url2" />
+              <a-input placeholder="请输入" v-model="form.url2" />
             </a-form-model-item>
           </a-col>
           <a-col
@@ -245,7 +241,7 @@
                 }
               ]"
             >
-              <a-select placeholder="请选择管理员"  v-model="form.owner2" >
+              <a-select placeholder="请选择管理员" v-model="form.owner2">
                 <a-select-option value="xiao">付晓晓</a-select-option>
                 <a-select-option value="mao">周毛毛</a-select-option>
               </a-select>
@@ -265,7 +261,7 @@
                 }
               ]"
             >
-              <a-select placeholder="请选择审批员"  v-model="form.approver2" >
+              <a-select placeholder="请选择审批员" v-model="form.approver2">
                 <a-select-option value="xiao">付晓晓</a-select-option>
                 <a-select-option value="mao">周毛毛</a-select-option>
               </a-select>
@@ -330,9 +326,9 @@
               :label="fieldLabels.type2"
               htmlFor="type2"
               prop="type2"
-              :rules="[  {  required: true,  message: '请选择任务类型'  }  ]"
+              :rules="[{ required: true, message: '请选择任务类型' }]"
             >
-              <a-select placeholder="请选择任务类型"  v-model="form.type2" >
+              <a-select placeholder="请选择任务类型" v-model="form.type2">
                 <a-select-option value="private">私密</a-select-option>
                 <a-select-option value="public">公开</a-select-option>
               </a-select>
@@ -354,11 +350,15 @@
             title="表单校验信息"
             :overlayClassName="styles.errorPopover"
             trigger="click"
-            :getPopupContainer="trigger=>{ if (trigger && trigger.parentNode) {
-        return trigger.parentNode;
-      }
+            :getPopupContainer="
+              trigger => {
+                if (trigger && trigger.parentNode) {
+                  return trigger.parentNode;
+                }
 
-      return trigger;}"
+                return trigger;
+              }
+            "
           >
             <template slot="content">
               <li
@@ -369,7 +369,9 @@
               >
                 <CloseCircleOutlined :class="styles.errorIcon" />
                 <div :class="styles.errorMessage">{{ err.errors[0] }}</div>
-                <div :class="styles.errorField">{{ fieldLabels[err.name[0]] }}</div>
+                <div :class="styles.errorField">
+                  {{ fieldLabels[err.name[0]] }}
+                </div>
               </li>
             </template>
 
@@ -377,7 +379,11 @@
           </a-popover>
           {{ errors.length }}
         </span>
-        <a-button type="primary" @click="submit('advancedForm')" :loading="submitting">
+        <a-button
+          type="primary"
+          @click="submit('advancedForm')"
+          :loading="submitting"
+        >
           提交
         </a-button>
       </template>
@@ -441,14 +447,13 @@ export default {
       fieldLabels,
       errors: [],
       form: {
-        name: '',
-        url:'',
-        members:tableData
+        name: "",
+        url: "",
+        members: tableData
       },
-      rules:{
-       name:[ {  required: true,  message: '请输入仓库名称' } ]
+      rules: {
+        name: [{ required: true, message: "请输入仓库名称" }]
       }
-
     };
   },
 
@@ -467,20 +472,19 @@ export default {
       this.$refs[formName].validate((valid, values) => {
         if (valid) {
           this.$store.dispatch({
-            type: 'formAndadvancedForm/submitAdvancedForm',
-            payload: this.form,
+            type: "formAndadvancedForm/submitAdvancedForm",
+            payload: this.form
           });
-        }else{
-
-          Object.keys(values).forEach((k)=>{
-            this.errors.push({name:[k],errors:[values[k][0].message]})
-          })
-          console.log(this.errors)
+        } else {
+          Object.keys(values).forEach(k => {
+            this.errors.push({ name: [k], errors: [values[k][0].message] });
+          });
+          console.log(this.errors);
           // this.errors = values;
         }
       });
     },
-    getPopupContainer(trigger){
+    getPopupContainer(trigger) {
       if (trigger && trigger.parentNode) {
         return trigger.parentNode;
       }

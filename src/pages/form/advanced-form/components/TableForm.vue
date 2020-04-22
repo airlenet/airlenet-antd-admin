@@ -95,9 +95,7 @@ export default {
     PlusOutlined
   },
   props: {
-    value: {
-
-    }
+    value: {}
   },
   data() {
     return {
@@ -132,11 +130,11 @@ export default {
       loading: false,
       cacheOriginData: {},
       clickedCancel: false,
-      data:[]
+      data: []
     };
   },
   created() {
-    if (this.value){
+    if (this.value) {
       this.data = this.value;
     }
   },

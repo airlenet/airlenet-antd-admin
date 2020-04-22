@@ -1,10 +1,10 @@
-export default  {
-    //eslint-disable-next-line
+export default {
+  //eslint-disable-next-line
     render(){
-        return (
-            <div >
-                <span>Hello</span> world!
-            </div>
-        )
-    }
-}
+    return (
+      <div>
+        <span>Hello</span> world!
+      </div>
+    );
+  }
+};

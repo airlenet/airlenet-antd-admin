@@ -94,7 +94,7 @@ export default [
           {
             path: "/list/search",
             name: "search-list",
-            component: () => import("@/pages/list/search"),
+            component: () => import("@/pages/list/search/index.jsx"),
             children: [
               {
                 path: "/list/search",
@@ -116,7 +116,8 @@ export default [
                 name: "applications",
                 icon: "smile",
                 path: "/list/search/applications",
-                component: () => import("@/pages/list/search/applications/index.jsx")
+                component: () =>
+                  import("@/pages/list/search/applications/index.jsx")
               }
             ]
           },

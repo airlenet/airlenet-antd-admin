@@ -31,6 +31,14 @@ const createLoadingPlugin = ({
                         ...state.effects,
                         [payload]: true // 将当前的action 置为true
                     };
+                    const indexOf = payload.indexOf('/');
+                    if (indexOf > -1) {
+                        const effectNamespace = payload.substring(0, indexOf)
+                        state.effects = {
+                            ...state.effects,
+                            [effectNamespace]: true // 将当前的action 置为true
+                        };
+                    }
 
                 },
                 [HIDE](state, {
@@ -40,10 +48,19 @@ const createLoadingPlugin = ({
                         ...state.effects,
                         [payload]: false // 将当前的action 置为false
                     };
+                    const indexOf = payload.indexOf('/');
+                    if (indexOf > -1) {
+                        const effectNamespace = payload.substring(0, indexOf)
+                        const e = Object.keys(state.effects).filter(item => item != effectNamespace && item.indexOf(effectNamespace) > -1).some(effectKey => {
+                            return state.effects[effectKey];
+                        });
+                        state.effects[effectNamespace] = e
+                    }
                     // 遍历所有的model 将所有命名空间中的都置为false
                     const global = Object.keys(state.effects).some(effectKey => {
                         return state.effects[effectKey];
                     });
+
                     state.global = global;
                 }
             }

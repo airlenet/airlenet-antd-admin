@@ -1,2 +1,2 @@
-import Applications from "@/pages/404.vue";
-export default Applications;
+import Articales from "./Articales.vue";
+export default Articales;

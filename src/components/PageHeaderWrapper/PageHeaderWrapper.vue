@@ -5,25 +5,47 @@
         <a-page-header :title="title">
           <!-- content -->
           <div
-            v-if="content || extraContent"
+            v-if="
+              content || extraContent || $slots.content || $slots.extraContent
+            "
             :class="`${prefixedClassName}-detail`"
           >
             <div :class="`${prefixedClassName}-main`">
               <div :class="`${prefixedClassName}-row`">
-                <div v-if="content" :class="`${prefixedClassName}-content`">
-                  {{ content }}
+                <div
+                  v-if="content || $slots.content"
+                  :class="`${prefixedClassName}-content`"
+                >
+                  <slot name="content">
+                    {{ content }}
+                  </slot>
                 </div>
                 <div
-                  v-if="extraContent"
+                  v-if="extraContent || $slots.extraContent"
                   :class="`${prefixedClassName}-extraContent`"
                 >
-                  {{ extraContent }}
+                  <slot name="extraContent">
+                    {{ extraContent }}
+                  </slot>
                 </div>
               </div>
             </div>
           </div>
-          <a-tabs v-if="tabList && tabList.length > 0" slot="footer">
-            <a-tabs-tabpane />
+          <a-tabs
+            :activeKey="tabActiveKey"
+            v-if="tabList && tabList.length > 0"
+            slot="footer"
+            @change="
+              key => {
+                if (this.onTabChange) this.onTabChange(key);
+              }
+            "
+          >
+            <a-tab-pane
+              v-for="item in tabList"
+              :tab="item.tab"
+              :key="item.key"
+            />
           </a-tabs>
         </a-page-header>
       </GridContent>
@@ -50,14 +72,19 @@ export default {
     title: {},
     content: {},
     tabList: {},
+    tabActiveKey: {},
     contentWidth: {},
-    extraContent: {}
+    extraContent: {},
+    onTabChange: {}
   },
   data() {
     return {
       prefixedClassName,
       styles
     };
+  },
+  mounted() {
+    console.log(this.tabList);
   }
 };
 </script>
