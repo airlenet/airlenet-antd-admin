@@ -6,6 +6,7 @@
     :defaultSelectedKeys="defaultSelectedKeys"
     :theme="theme"
     :selectedKeys="selectedKeys"
+    :openKeys="openKeys"
     :style="styleStr"
     :class="[{ ['top-nav-menu']: mode === 'horizontal' }, className]"
     @openChange="setOpenKeys"
@@ -36,6 +37,7 @@ export default {
   props: {
     collapsed: {},
     menuData: {},
+    layout: {},
     mode: {},
     theme: {},
     styleStr: {},
@@ -51,21 +53,29 @@ export default {
   },
   data() {
     return {
-      openKeys: [],
+      currentOpenKeys: [],
       selectedKeys: [],
       defaultOpenKeys: [],
-      defaultSelectedKeys: []
+      defaultSelectedKeys: [],
+      openKeys:[],
     };
   },
+
   created() {
-    this.selectedKeys = this.getSelectedMenuKeys(window.location.pathname);
-    this.defaultSelectedKeys = [...this.selectedKeys];
-    this.defaultOpenKeys = this.defaultSelectedKeys.concat([]);
-    this.defaultOpenKeys.pop();
+    this.defaultSelectedKeys = this.getSelectedMenuKeys(
+      window.location.pathname
+    );
+    this.selectedKeys = this.defaultSelectedKeys;
+    const temp = this.defaultSelectedKeys.concat([]);
+    temp.pop();
+    this.defaultOpenKeys = temp;
+    this.currentOpenKeys = this.defaultOpenKeys;
+    this.openKeys = this.currentOpenKeys
   },
   methods: {
     setOpenKeys(keys) {
-      this.openKeys = keys;
+      this.currentOpenKeys = keys;
+      this.openKeys=keys;
     },
     //eslint-disable-next-line
     setSelects({ item, key, selectedKeys }){
@@ -98,6 +108,17 @@ export default {
         return path;
       }
       return `/${path || ""}`.replace(/\/+/g, "/");
+    },
+    changeOpenKeys(){
+      if (
+        this.currentOpenKeys &&
+        !this.collapsed &&
+        this.layout === "sidemenu"
+      ) {
+        this.openKeys= this.currentOpenKeys;
+      }else{
+        this.openKeys= [];
+      }
     }
   },
   mounted() {
@@ -109,7 +130,14 @@ export default {
       handler(newVal,oldVal){
         if (this.selectedKeys != newVal.path) this.selectedKeys = [newVal.path];
       }
-    }
+    },
+    layout(){
+      this.changeOpenKeys()
+    },
+    collapsed() {
+      this.changeOpenKeys()
+    },
+
   }
 };
 </script>

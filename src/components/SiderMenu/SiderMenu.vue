@@ -29,6 +29,8 @@
       v-else
       :menuData="menuData"
       mode="inline"
+      :layout="layout"
+      :collapsed="collapsed"
       :theme="theme"
       :flatMenuKeys="flatMenuKeys"
       style="padding: 16px 0; width: 100%"
@@ -49,6 +51,7 @@ export default {
     logo: {},
     title: {},
     collapsed: {},
+    layout: {},
     fixSiderbar: {},
     theme: {},
     siderWidth: {

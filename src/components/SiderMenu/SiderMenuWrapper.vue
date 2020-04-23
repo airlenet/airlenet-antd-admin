@@ -17,6 +17,7 @@
       :logo="logo"
       :flatMenuKeys="getFlatMenuKeys(menuData)"
       :collapsed="mobile ? false : collapsed"
+      :layout="layout"
     />
   </a-drawer>
   <SiderMenu
@@ -29,6 +30,7 @@
     :logo="logo"
     :flatMenuKeys="getFlatMenuKeys(menuData)"
     :collapsed="collapsed"
+    :layout="layout"
   />
 </template>
 
@@ -44,9 +46,10 @@ export default {
     mobile: {},
     menuData: {},
     collapsed: {},
-    onCollapse:{
-      type:Function
+    onCollapse: {
+      type: Function
     },
+    layout: {},
     siderWidth: {},
     fixSiderbar: {},
     className: {},
@@ -74,8 +77,8 @@ export default {
     hide(val) {
       console.log("hide = " + val);
     },
-    mobile(val){
-      if(val){
+    mobile(val) {
+      if (val) {
         if (this.onCollapse) {
           this.onCollapse(true);
         }

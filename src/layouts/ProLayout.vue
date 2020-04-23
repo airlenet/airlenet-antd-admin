@@ -25,6 +25,7 @@
         :fixSiderbar="fixSiderbar"
         :logo="logo"
         :hide="hide"
+        :layout="layout"
         @onCollapse="onCollapse"
       />
       <a-layout :style="genLayoutStyle">
@@ -96,8 +97,8 @@ export default {
     childrenLayout: {
       default: undefined
     },
-    onCollapse:{
-      type:Function
+    onCollapse: {
+      type: Function
     },
     siderWidth: {
       default: 256

@@ -69,8 +69,8 @@ export default {
     rightContent: {},
     title: {},
     menuData: {},
-    onCollapse:{
-      type:Function
+    onCollapse: {
+      type: Function
     }
   },
   computed: {

@@ -26,15 +26,15 @@ export default {
     mobile: {},
     logo: {},
     collapsed: {},
-    onCollapse:{
-      type:Function
+    onCollapse: {
+      type: Function
     }
   },
   methods: {
     toggle() {
-      if(this.onCollapse){
-        this.onCollapse(!this.collapsed)
-      }else{
+      if (this.onCollapse) {
+        this.onCollapse(!this.collapsed);
+      } else {
         this.$emit("onCollapse", !this.collapsed);
       }
       this.triggerResizeEvent();
