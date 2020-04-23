@@ -20,6 +20,7 @@
         :theme="navTheme"
         :menuData="menuData"
         :collapsed="collapsed"
+        :onCollapse="onCollapse"
         :siderWidth="siderWidth"
         :fixSiderbar="fixSiderbar"
         :logo="logo"
@@ -38,6 +39,7 @@
           :menuData="menuData"
           :siderWidth="siderWidth"
           :collapsed="collapsed"
+          :onCollapse="onCollapse"
           :fixedHeader="fixedHeader"
           @onCollapse="onCollapse"
         >
@@ -93,6 +95,9 @@ export default {
     },
     childrenLayout: {
       default: undefined
+    },
+    onCollapse:{
+      type:Function
     },
     siderWidth: {
       default: 256
@@ -180,9 +185,6 @@ export default {
       this.colSize = useMediaQuery();
       this.mobile =
         (this.colSize === "sm" || this.colSize === "xs") && !this.disableMobile;
-    },
-    onCollapse(collapsed) {
-      this.$store.commit("global/changeLayoutCollapsed", collapsed);
     },
     onMenuClick(key) {
       console.log(key);

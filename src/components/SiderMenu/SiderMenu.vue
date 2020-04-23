@@ -7,6 +7,14 @@
       ['fix-sider-bar']: fixSiderbar,
       light: theme === 'light'
     }"
+    @collapse="
+      c => {
+        if (!mobile) {
+          this.$emit('onCollapse', c);
+        }
+      }
+    "
+    :breakpoint="breakpoint === false ? undefined : breakpoint"
   >
     <!--headerDom-->
     <div class="ant-pro-sider-menu-logo" @click="onMenuHeaderClick" id="logo">

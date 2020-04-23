@@ -102,6 +102,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {});
+  },
+  watch: {
+    $route: {
+      //eslint-disable-next-line
+      handler(newVal,oldVal){
+        if (this.selectedKeys != newVal.path) this.selectedKeys = [newVal.path];
+      }
+    }
   }
 };
 </script>

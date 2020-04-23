@@ -34,6 +34,7 @@
             this.$emit('onCollapse', c);
           }
         "
+        :onCollapse="onCollapse"
         :rightContent="rightContent"
         :logo="logo"
         :collapsed="collapsed"
@@ -67,7 +68,10 @@ export default {
     collapsed: {},
     rightContent: {},
     title: {},
-    menuData: {}
+    menuData: {},
+    onCollapse:{
+      type:Function
+    }
   },
   computed: {
     top() {

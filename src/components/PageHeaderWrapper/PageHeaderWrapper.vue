@@ -37,7 +37,7 @@
             slot="footer"
             @change="
               key => {
-                if (this.onTabChange) this.onTabChange(key);
+                if (tabChange) tabChange(key);
               }
             "
           >
@@ -46,6 +46,9 @@
               :tab="item.tab"
               :key="item.key"
             />
+            <template slot="tabBarExtraContent">
+              <slot name="tabBarExtraContent" />
+            </template>
           </a-tabs>
         </a-page-header>
       </GridContent>
@@ -75,7 +78,9 @@ export default {
     tabActiveKey: {},
     contentWidth: {},
     extraContent: {},
-    onTabChange: {}
+    tabChange: {
+      type: Function
+    }
   },
   data() {
     return {
@@ -84,7 +89,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.tabList);
+    // console.log(this.tabList);
   }
 };
 </script>

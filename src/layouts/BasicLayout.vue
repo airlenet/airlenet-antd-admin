@@ -1,6 +1,6 @@
 <template>
   <Fragment>
-    <ProLayout :logo="logo" />
+    <ProLayout :logo="logo" :onCollapse="onCollapse"/>
     <SettingDrawer
       :setting="$store.state.setting"
       @onSettingChange="
@@ -25,6 +25,10 @@ export default {
     return {
       logo
     };
+  },methods:{
+    onCollapse(collapsed) {
+      this.$store.commit("global/changeLayoutCollapsed", collapsed);
+    },
   }
 };
 </script>

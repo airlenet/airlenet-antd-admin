@@ -44,6 +44,9 @@ export default {
     mobile: {},
     menuData: {},
     collapsed: {},
+    onCollapse:{
+      type:Function
+    },
     siderWidth: {},
     fixSiderbar: {},
     className: {},
@@ -70,6 +73,13 @@ export default {
   watch: {
     hide(val) {
       console.log("hide = " + val);
+    },
+    mobile(val){
+      if(val){
+        if (this.onCollapse) {
+          this.onCollapse(true);
+        }
+      }
     }
   }
 };

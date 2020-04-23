@@ -15,6 +15,7 @@
 <script>
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons-vue";
 import "./GlobalHeader.less";
+import { isBrowser } from "@/utils/utils";
 export default {
   name: "GlobalHeader",
   components: {
@@ -24,11 +25,26 @@ export default {
   props: {
     mobile: {},
     logo: {},
-    collapsed: {}
+    collapsed: {},
+    onCollapse:{
+      type:Function
+    }
   },
   methods: {
     toggle() {
-      this.$emit("onCollapse", !this.collapsed);
+      if(this.onCollapse){
+        this.onCollapse(!this.collapsed)
+      }else{
+        this.$emit("onCollapse", !this.collapsed);
+      }
+      this.triggerResizeEvent();
+    },
+    triggerResizeEvent() {
+      if (isBrowser()) {
+        const event = document.createEvent("HTMLEvents");
+        event.initEvent("resize", true, false);
+        window.dispatchEvent(event);
+      }
     }
   }
 };
