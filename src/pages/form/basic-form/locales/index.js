@@ -2,8 +2,8 @@ import zhCnLocale from "./zh-CN.js";
 import zhTwLocale from "./zh-TW.js";
 import enUsLocale from "./en-US.js";
 import ptBrLocale from "./pt-BR.js";
-
-export const registerLocaleMessage = i18n => {
+//eslint-disable-next-line
+export const registerLocaleMessage =( i18n )=> {
   i18n.setLocaleMessage(
     "zh-CN",
     Object.assign(i18n.getLocaleMessage("zh-CN"), zhCnLocale)

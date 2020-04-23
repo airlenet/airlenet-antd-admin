@@ -1,109 +1,99 @@
-const NAMESPACE = "loading"; // 定义模块名
-const SHOW = "@@LOADING/SHOW"; // 显示mutation 同步type
-const HIDE = "@@LOADING/HIDE";
-/* eslint-disable */
 const createLoadingPlugin = ({
-                                 namespace = NAMESPACE,
-                                 includes = [],
-                                 excludes = []
-                             } = {}) => {
-    return store => {
-        if (store.state[namespace]) {
-            throw new Error(
-                `createLoadingPlugin: ${namespace} exited in current store`
-            );
+  namespace: NAMESPACE = "loading",
+  includes = [],
+  excludes = []
+} = {}) => {
+  const SHOW = "@@LOADING/SHOW";
+  const HIDE = "@@LOADING/HIDE";
+  return store => {
+    if (store.state[NAMESPACE]) {
+      throw new Error(
+        `createLoadingPlugin: ${NAMESPACE} exited in current store`
+      );
+    }
+    // new vuex的时候注册一个模块进去
+    store.registerModule(NAMESPACE, {
+      namespaced: true,
+      state: {
+        global: false, // 定义全局loading
+        models: {},
+        effects: {}
+      },
+      // 同步方法
+      mutations: {
+        [SHOW](state, { payload }) {
+          state.global = true;
+          state.effects = {
+            ...state.effects,
+            [payload]: true // 将当前的action 置为true
+          };
+          const _namespace = payload.split("/")[0];
+          state.models = { ...state.models, [_namespace]: true };
+        },
+        [HIDE](state, { payload }) {
+          state.effects = {
+            ...state.effects,
+            [payload]: false // 将当前的action 置为false
+          };
+          const _namespace = payload.split("/")[0];
+
+          const namespace = Object.keys(state.effects)
+            .filter(item => item.indexOf(_namespace) > -1)
+            .some(effectKey => {
+              return state.effects[effectKey];
+            });
+
+          state.models = { ...state.models, [_namespace]: namespace };
+          // 遍历所有的model 将所有命名空间中的都置为false
+          const global = Object.keys(state.effects).some(effectKey => {
+            return state.effects[effectKey];
+          });
+
+          state.global = global;
         }
+      }
+    });
 
-        // new vuex的时候注册一个模块进去
-        store.registerModule(namespace, {
-            namespaced: false,
-            state: {
-                global: false, // 定义全局loading
-                effects: {}
-            },
-            // 同步方法
-            mutations: {
-                [SHOW](state, {
-                    payload
-                }) {
-                    state.global = true;
-                    state.effects = {
-                        ...state.effects,
-                        [payload]: true // 将当前的action 置为true
-                    };
-                    const indexOf = payload.indexOf('/');
-                    if (indexOf > -1) {
-                        const effectNamespace = payload.substring(0, indexOf)
-                        state.effects = {
-                            ...state.effects,
-                            [effectNamespace]: true // 将当前的action 置为true
-                        };
-                    }
-
-                },
-                [HIDE](state, {
-                    payload
-                }) {
-                    state.effects = {
-                        ...state.effects,
-                        [payload]: false // 将当前的action 置为false
-                    };
-                    const indexOf = payload.indexOf('/');
-                    if (indexOf > -1) {
-                        const effectNamespace = payload.substring(0, indexOf)
-                        const e = Object.keys(state.effects).filter(item => item != effectNamespace && item.indexOf(effectNamespace) > -1).some(effectKey => {
-                            return state.effects[effectKey];
-                        });
-                        state.effects[effectNamespace] = e
-                    }
-                    // 遍历所有的model 将所有命名空间中的都置为false
-                    const global = Object.keys(state.effects).some(effectKey => {
-                        return state.effects[effectKey];
-                    });
-
-                    state.global = global;
-                }
-            }
-        });
-
-
-        store.subscribeAction({
-            // 发起一个action 之前会走这里
+    store.subscribeAction({
+      //eslint-disable-next-line
             before: (action, state) => {
-                if (onEffect(action, includes, excludes)) {
-                    store.commit({
-                        type: `${SHOW}`,
-                        payload: action.type
-                    });
-                }
+        if (onEffect(action, includes, excludes)) {
+          store.commit(
+            {
+              type: `${NAMESPACE}/${SHOW}`,
+              payload: action.type
             },
-            // 发起一个action 之后会走这里
+            { root: true }
+          );
+        }
+      },
+      //eslint-disable-next-line
             after: (action, state) => {
-                if (onEffect(action, includes, excludes)) {
-                    store.commit({
-                        type: `${HIDE}`,
-                        payload: action.type
-                    });
-                }
-            }
-        });
-    };
+        if (onEffect(action, includes, excludes)) {
+          store.commit(
+            {
+              type: `${NAMESPACE}/${HIDE}`,
+              payload: action.type
+            },
+            { root: true }
+          );
+        }
+      }
+    });
+  };
 };
 
 // 判断是否要执行
-function onEffect({
-                      type
-                  }, includes, excludes) {
-    if (includes.length === 0 && excludes.length === 0) {
-        return true;
-    }
+function onEffect({ type }, includes, excludes) {
+  if (includes.length === 0 && excludes.length === 0) {
+    return true;
+  }
 
-    if (includes.length > 0) {
-        return includes.indexOf(type) > -1;
-    }
+  if (includes.length > 0) {
+    return includes.indexOf(type) > -1;
+  }
 
-    return excludes.length > 0 && excludes.indexOf(type) === -1;
+  return excludes.length > 0 && excludes.indexOf(type) === -1;
 }
 
 export default createLoadingPlugin;
-/* eslint-enable */

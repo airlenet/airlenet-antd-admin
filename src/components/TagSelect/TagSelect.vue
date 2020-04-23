@@ -11,7 +11,10 @@
 
     <slot></slot>
     <a v-if="expandable" :class="[styles.trigger]" @click="handleExpand">
-      <template v-if="expand"> {{ collapseText }} <UpOutlined /> </template>
+      <template v-if="expand">
+        {{ collapseText }}
+        <UpOutlined />
+      </template>
       <template v-else>
         {{ expandText }}
         <DownOutlined />
@@ -24,6 +27,7 @@
 import styles from "./index.module.less";
 import { findComponentsDownward } from "@/utils/assist";
 import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
+
 export default {
   name: "TagSelect",
   components: {
@@ -73,7 +77,9 @@ export default {
       ];
     },
     checkedAll() {
-      return this.getAllTags().length == this.currentValue.length;
+      return this.currentValue.length == 0
+        ? false
+        : this.getAllTags().length == this.currentValue.length;
     }
   },
   methods: {

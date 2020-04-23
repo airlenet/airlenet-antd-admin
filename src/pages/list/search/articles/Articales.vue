@@ -169,7 +169,7 @@ import StandardFormRow from "@/components/StandardFormRow/index.jsx";
 import TagSelect from "@/components/TagSelect/TagSelect.vue";
 import TagSelectOption from "@/components/TagSelect/TagSelectOption";
 import styles from "./style.module.less";
-import Model from "./model.js";
+import { registerModel } from "./model.js";
 import IconText from "./components/IconText";
 //eslint-disable-next-line
   import {LoadingOutlined} from '@ant-design/icons-vue';
@@ -227,13 +227,17 @@ export default {
       formItemLayout,
       owners: owners,
       formModel: {
-        category: ["cat1"]
+        category: ["cat1"],
+        owner: []
       },
       pageSize: 5
     };
   },
   created() {
-    this.$store.registerModule("listAndsearchAndarticles", Model);
+    registerModel(this.$store);
+    // if(!this.$store._modulesNamespaceMap[Model.namespace+(Model.namespaced?'/':'')]){
+    //   this.$store.registerModule(Model.namespace, Model);
+    // }
   },
   computed: {
     loading() {
@@ -245,7 +249,8 @@ export default {
   },
   methods: {
     setOwner() {
-      this.formModel.owner = ["wzj"];
+      this.formModel.owner.length = 0;
+      this.formModel.owner.push("wzj");
     },
     handleSubmit() {
       this.$store.dispatch({

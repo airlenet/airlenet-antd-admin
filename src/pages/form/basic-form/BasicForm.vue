@@ -240,7 +240,7 @@ import PageHeaderWrapper from "../../../components/PageHeaderWrapper/PageHeaderW
 import styles from "./style.module.less";
 import { InfoCircleOutlined } from "@ant-design/icons-vue";
 import { registerLocaleMessage } from "./locales";
-import Model from "./model.js";
+import { registerModel } from "./model.js";
 export default {
   name: "BasicForm",
   props: {
@@ -249,7 +249,10 @@ export default {
   components: { PageHeaderWrapper, InfoCircleOutlined },
   created() {
     registerLocaleMessage(this.$i18n);
-    this.$store.registerModule("formAndbasicForm", Model);
+    registerModel(this.$store);
+    // if(!this.$store._modulesNamespaceMap[Model.namespace+(Model.namespaced?'/':'')]){
+    //   this.$store.registerModule(Model.namespace, Model);
+    // }
   },
   data() {
     return {

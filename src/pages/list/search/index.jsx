@@ -21,8 +21,8 @@ export default {
             tab: "应用"
           }
         ]}
-        tabActiveKey={this.getTabKey()}
-        onTabChange={this.handleTabChange}
+        tabActiveKey={this.getTabKey}
+        tabChange={this.handleTabChange}
       >
         <div
           slot="content"
@@ -48,6 +48,9 @@ export default {
   computed: {
     loading() {
       return this.$store.state.loading["listAndsearchAndarticles"];
+    },
+    getTabKey() {
+      return this.$route.name;
     }
   },
   methods: {
@@ -55,33 +58,29 @@ export default {
       // eslint-disable-next-line no-console
       console.log(value);
     },
-    getTabKey() {
-      // const { match, location } = this.props;
-      // const url = match.path === '/' ? '' : match.path;
-      // const tabKey = location.pathname.replace(`${url}/`, '');
-      //
-      // if (tabKey && tabKey !== '/') {
-      //     return tabKey;
-      // }
-
-      return "articles";
-    },
+    // getTabKey() {
+    //   // const { match, location } = this.props;
+    //   // const url = match.path === '/' ? '' : match.path;
+    //   // const tabKey = location.pathname.replace(`${url}/`, '');
+    //   //
+    //   // if (tabKey && tabKey !== '/') {
+    //   //     return tabKey;
+    //   // }
+    //
+    //   return "articles";
+    // },
     handleTabChange(key) {
-      // const { match } = this.props;
-      // const url = match.url === '/' ? '' : match.url;
-      const url = "";
-
       switch (key) {
         case "articles":
-          this.$route.push(`${url}/articles`);
+          this.$router.push({ name: `articles` });
           break;
 
         case "applications":
-          this.$route.push(`${url}/applications`);
+          this.$router.push({ name: `applications` });
           break;
 
         case "projects":
-          this.$route.push(`${url}/projects`);
+          this.$router.push({ name: `projects` });
           break;
 
         default:

@@ -1,2 +1,2 @@
-import Applications from "@/pages/404.vue";
-export default Applications;
+import Projects from "./Projects";
+export default Projects;

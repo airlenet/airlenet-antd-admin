@@ -39,4 +39,14 @@ const Model = {
     }
   }
 };
+
+export const registerModel = $store => {
+  if (
+    !$store._modulesNamespaceMap[
+      Model.namespace + (Model.namespaced ? "/" : "")
+    ]
+  ) {
+    $store.registerModule(Model.namespace, Model);
+  }
+};
 export default Model;
