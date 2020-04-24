@@ -134,7 +134,7 @@ export default {
       });
       const { primaryColor, colorWeak,colorBlackWhite, contentWidth } = payload;
       if (state.primaryColor !== primaryColor) {
-        // updateTheme(primaryColor);
+        updateTheme(primaryColor);
       }
       if (state.contentWidth !== contentWidth && window.dispatchEvent) {
         window.dispatchEvent(new Event("resize"));
