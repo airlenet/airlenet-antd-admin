@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e883c"],{"8a30":function(n,e,o){"use strict";o.r(e),e["default"]={render:function(n){return n("div",[n("span",["Hello"])," world!"])}}}}]);

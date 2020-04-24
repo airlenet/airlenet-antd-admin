@@ -11,7 +11,9 @@ const resolve = dir => {
 
 module.exports = {
   // 选项...
-
+  publicPath: process.env.NODE_ENV === 'production'
+      ? '/ant-design-vue-pro/'
+      : '/',
   css: {
     extract: true,
     requireModuleExtension: true,
