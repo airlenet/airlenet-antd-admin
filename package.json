@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:no-mock": "cross-env MOCK=none vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
@@ -46,7 +47,9 @@
     "eslint-plugin-vue": "^6.2.2",
     "less": "^2.7.3",
     "less-loader": "^4.1.0",
+    "mockjs": "^1.1.0",
     "prettier": "^1.19.1",
+    "umi-mock-middleware": "^1.0.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
