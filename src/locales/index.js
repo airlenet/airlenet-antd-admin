@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
+import dayjs from "dayjs";
+import dayjsZhCn from "dayjs/locale/zh-cn";
 import zhCnLocale from "./zh-CN";
 import zhTwLocale from "./zh-TW";
 import enUsLocale from "./en-US";
@@ -8,7 +10,7 @@ Vue.use(VueI18n);
 const navLang = navigator.language;
 const localLang = navLang === "zh-CN" || navLang === "en-US" ? navLang : false;
 let lang = localLang || "zh-CN";
-
+dayjs.locale(dayjsZhCn);
 Vue.config.lang = lang;
 
 // vue-i18n 6.x+写法

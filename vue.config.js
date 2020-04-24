@@ -2,22 +2,22 @@
 // import webpackPlugin from './plugin.config';
 const path = require("path");
 const webpack = require("webpack");
-const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
-// const { createMockMiddleware } = require("umi-mock-middleware");
+// const AntDesignThemePlugin = require("antd-theme-webpack-plugin");
+// // const { createMockMiddleware } = require("umi-mock-middleware");
+//
+// const options = {
+//   antDir: path.join(__dirname, "./node_modules/ant-design-vue"),
+//   stylesDir: path.join(__dirname, "./src"),
+//   varFile: path.join(
+//     __dirname,
+//     "./node_modules/ant-design-vue/es/style/themes/default.less"
+//   ),
+//   mainLessFile: "",
+//   themeVariables: ["@primary-color"],
+//   generateOnce: false
+// };
 
-const options = {
-  antDir: path.join(__dirname, "./node_modules/ant-design-vue"),
-  stylesDir: path.join(__dirname, "./src"),
-  varFile: path.join(
-    __dirname,
-    "./node_modules/ant-design-vue/es/style/themes/default.less"
-  ),
-  mainLessFile: "",
-  themeVariables: ["@primary-color"],
-  generateOnce: false
-};
-
-const themePlugin = new AntDesignThemePlugin(options);
+const themePlugin = require("./plugin/theme.js");
 // eslint-disable-next-line
 const resolve = dir => {
   return path.join(__dirname, dir);

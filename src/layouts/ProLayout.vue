@@ -12,7 +12,7 @@
       }
     ]"
   >
-    <Layout style="minHeight:100%" :style="styleStr" hasSider>
+    <a-layout style="minHeight:100%" :style="styleStr" hasSider>
       <SiderMenuWrapper
         v-if="hasSiderMenu"
         :mobile="mobile"
@@ -28,7 +28,7 @@
         :layout="layout"
         @onCollapse="onCollapse"
       />
-      <Layout :style="genLayoutStyle">
+      <a-layout :style="genLayoutStyle">
         <HeaderView
           :logo="logo"
           rightContent="RightContent"
@@ -59,8 +59,8 @@
           <router-view v-else :contentWidth="contentWidth" />
         </WrapContent>
         <FooterView />
-      </Layout>
-    </Layout>
+      </a-layout>
+    </a-layout>
   </div>
 </template>
 
@@ -76,7 +76,6 @@ import GlobalRightContent from "../components/Header/GlobalRightContent";
 import routes from "../router/routers.js";
 import FooterView from "../components/Footer/FooterView";
 import ResizeObserver from "resize-observer-polyfill";
-import { Layout } from "ant-design-vue";
 export default {
   name: "ProLayout",
   components: {
@@ -85,8 +84,7 @@ export default {
     HeaderView,
     SiderMenuWrapper,
     WrapContent,
-    PageLoading,
-    Layout
+    PageLoading
   },
   props: {
     styleStr: {},

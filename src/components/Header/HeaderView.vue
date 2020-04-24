@@ -1,7 +1,7 @@
 <template>
   <fragment>
-    <Layout.Header v-if="fixedHeader" />
-    <Layout.Header
+    <a-layout-header v-if="fixedHeader" />
+    <a-layout-header
       :style="{
         padding: '0px',
         zIndex: 9,
@@ -44,7 +44,7 @@
           <slot name="rightContent"></slot
         ></template>
       </GlobalHeader>
-    </Layout.Header>
+    </a-layout-header>
   </fragment>
 </template>
 
@@ -53,11 +53,10 @@ import TopNavHeader from "../TopNavHeader/TopNavHeader";
 import GlobalHeader from "./GlobalHeader";
 import { Fragment } from "vue-fragment";
 import "./Header.less";
-import { Layout } from "ant-design-vue";
 export default {
   name: "HeaderView",
   //eslint-disable-next-line
-  components: { GlobalHeader, TopNavHeader ,Fragment,Layout},
+  components: { GlobalHeader, TopNavHeader ,Fragment},
   props: {
     fixedHeader: {},
     layout: {},
