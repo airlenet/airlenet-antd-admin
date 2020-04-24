@@ -30,13 +30,13 @@ export default {
             });
             const unreadCount = data.filter(item => !item.read).length;
             commit(
-                {
-                    type: "user/changeNotifyCount",
-                    payload: {
-                        totalCount:  data.length,
-                        unreadCount
-                    }
-                },
+              {
+                type: "user/changeNotifyCount",
+                payload: {
+                  totalCount: data.length,
+                  unreadCount
+                }
+              },
               { root: true }
             );
             resolve(data);

@@ -1,5 +1,5 @@
 <template>
-  <a-sub-menu
+  <Menu.SubMenu
     :key="menuInfo.key || menuInfo.path"
     v-bind="$props"
     v-on="$listeners"
@@ -17,7 +17,7 @@
       {{ $t(menuInfo.locale) }}
     </template>
     <template v-for="item in menuInfo.children">
-      <a-menu-item v-if="!item.children" :key="item.key || item.path">
+      <Menu.Item v-if="!item.children" :key="item.key || item.path">
         <template v-if="item.icon">
           <a-icon :type="item.icon" />
           <span>{{ $t(item.locale) }}</span>
@@ -25,15 +25,14 @@
         <template v-else>
           {{ $t(item.locale) }}
         </template>
-      </a-menu-item>
+      </Menu.Item>
       <base-sub-menu v-else :key="item.key || item.path" :menu-info="item" />
     </template>
-  </a-sub-menu>
+  </Menu.SubMenu>
 </template>
 
 <script>
 import { Menu } from "ant-design-vue";
-
 export default {
   name: "BaseSubMenu",
   isSubMenu: true,

@@ -5,7 +5,7 @@
     :visible="visible"
     :trigger="['click']"
     @onVisibleChange="setVisible"
-    v-if="$slots.default.length>0"
+    v-if="$slots.default.length > 0"
   >
     <span :class="[{ [styles.noticeButton]: true }, className]">
       <a-badge
@@ -65,14 +65,14 @@
     </a-spin>
   </HeaderDropdown>
   <span v-else :class="[{ [styles.noticeButton]: true }, className]">
-      <a-badge
-        :count="count"
-        style="box-shadow:none"
-        :class="{ [styles.badge]: true }"
-      >
-        <BellOutlined :class="{ [styles.icon]: true }" />
-      </a-badge>
-    </span>
+    <a-badge
+      :count="count"
+      style="box-shadow:none"
+      :class="{ [styles.badge]: true }"
+    >
+      <BellOutlined :class="{ [styles.icon]: true }" />
+    </a-badge>
+  </span>
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
     count: {},
     className: {},
     loading: {
-      type :Boolean
+      type: Boolean
     },
     onClear: {
       type: Function

@@ -1,5 +1,5 @@
 <template>
-  <a-menu
+  <Menu
     key="Menu"
     :mode="mode"
     :defaultOpenKeys="defaultOpenKeys"
@@ -13,7 +13,7 @@
     @select="setSelects"
   >
     <template v-for="item in menuData">
-      <a-menu-item v-if="!item.children" :key="item.key || item.path">
+      <Menu.Item v-if="!item.children" :key="item.key || item.path">
         <template v-if="item.icon">
           <a-icon :type="item.icon" />
           <span>{{ $t(item.locale) }}</span>
@@ -21,18 +21,20 @@
         <template v-else>
           {{ $t(item.locale) }}
         </template>
-      </a-menu-item>
+      </Menu.Item>
       <base-sub-menu v-else :menu-info="item" :key="item.key || item.path" />
     </template>
-  </a-menu>
+  </Menu>
 </template>
 <script>
 import BaseSubMenu from "./BaseSubMenu";
 import pathToRegexp from "path-to-regexp";
+import { Menu } from "ant-design-vue";
 export default {
   name: "BaseMenu",
   components: {
-    BaseSubMenu: BaseSubMenu
+    BaseSubMenu: BaseSubMenu,
+    Menu
   },
   props: {
     collapsed: {},

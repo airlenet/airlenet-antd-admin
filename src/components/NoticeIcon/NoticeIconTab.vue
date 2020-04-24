@@ -34,19 +34,18 @@
             <div slot="title" :class="{ [styles.title]: true }">
               {{ item.title }}
               <div :class="{ [styles.extra]: true }">
-                <a-tag v-if="item.status&&item.extra"
+                <a-tag
+                  v-if="item.status && item.extra"
                   :color="color[item.status]"
                   :style="{
-                  marginRight: '0px',
+                    marginRight: '0px'
                   }"
                 >
-                  {{item.extra}}
+                  {{ item.extra }}
                 </a-tag>
                 <template v-else>
                   {{ item.extra }}
                 </template>
-
-
               </div>
             </div>
 
@@ -126,11 +125,11 @@ export default {
   data() {
     return {
       styles,
-      color : {
-        todo: '',
-        processing: 'blue',
-        urgent: 'red',
-        doing: 'gold',
+      color: {
+        todo: "",
+        processing: "blue",
+        urgent: "red",
+        doing: "gold"
       }
     };
   },

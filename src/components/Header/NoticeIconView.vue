@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     ...mapState({
-      fetchingNotices: state => state.loading.effects['global/fetchNotices']
+      fetchingNotices: state => state.loading.effects["global/fetchNotices"]
     }),
     collapsed() {
       return this.$store.state.global.collapsed;
