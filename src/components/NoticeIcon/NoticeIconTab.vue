@@ -16,7 +16,7 @@
             [styles.item]: true,
             [styles.read]: item.read ? item.read : false
           }"
-          :click="() => onClick && onClick(item)"
+          @click="listClick(item)"
         >
           <a-list-item-meta :class="{ [styles.meta]: true }">
             <a-avatar
@@ -33,7 +33,21 @@
             >
             <div slot="title" :class="{ [styles.title]: true }">
               {{ item.title }}
-              <div :class="{ [styles.extra]: true }">{{ item.extra }}</div>
+              <div :class="{ [styles.extra]: true }">
+                <a-tag v-if="item.status&&item.extra"
+                  :color="color[item.status]"
+                  :style="{
+                  marginRight: '0px',
+                  }"
+                >
+                  {{item.extra}}
+                </a-tag>
+                <template v-else>
+                  {{ item.extra }}
+                </template>
+
+
+              </div>
             </div>
 
             <div slot="description">
@@ -52,7 +66,8 @@
           v-if="showClear"
           @click="
             e => {
-              this.$emit('onClear', e);
+              if (this.onClear) this.onClear(e);
+              else this.$emit('onClear', e);
             }
           "
         >
@@ -61,10 +76,12 @@
 
         <div
           v-if="showViewMore"
-          onClick="e => {
-                                this.$emit('onViewMore',e)
-
-                    }"
+          @click="
+            e => {
+              if (this.onViewMore) this.onViewMore(e);
+              else this.$emit('onViewMore', e);
+            }
+          "
         >
           {{ viewMoreText }}
         </div>
@@ -75,6 +92,7 @@
 
 <script>
 import styles from "./NoticeIconTab.module.less";
+
 export default {
   name: "NoticeIconTab",
   props: {
@@ -93,14 +111,34 @@ export default {
       type: Boolean,
       default: false
     },
+    onClear: {
+      type: Function
+    },
+    onClick: {
+      type: Function
+    },
+    onViewMore: {
+      type: Function
+    },
     title: {},
     tabKey: {}
   },
   data() {
     return {
-      styles
+      styles,
+      color : {
+        todo: '',
+        processing: 'blue',
+        urgent: 'red',
+        doing: 'gold',
+      }
     };
   },
-  mounted() {}
+  methods: {
+    listClick(item) {
+      if (this.onClick) this.onClick(item);
+      else this.$emit("onClick", item);
+    }
+  }
 };
 </script>

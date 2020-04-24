@@ -3,16 +3,17 @@
     :loading="fetchingNotices"
     :count="count"
     :className="styles.action"
-    @onItemClick="
+    :onItemClick="
       item => {
         changeReadState(item);
       }
     "
     clearText="清空"
     viewMoreText="查看更多"
-    @onClear="handleNoticeClear"
-    @onPopupVisibleChange="() => {}"
-    @onViewMore="() => this.$message.info('Click on view more')"
+    :onClear="handleNoticeClear"
+    :onPopupVisibleChange="() => {}"
+    :onTabChange="key => this.$message.info('active ' + key)"
+    :onViewMore="() => this.$message.info('Click on view more')"
     clearClose
   >
     <NoticeIconTab
@@ -59,7 +60,7 @@ export default {
   },
   computed: {
     ...mapState({
-      fetchingNotices: state => state.loading.effects.fetchNotices
+      fetchingNotices: state => state.loading.effects['global/fetchNotices']
     }),
     collapsed() {
       return this.$store.state.global.collapsed;
@@ -136,8 +137,19 @@ export default {
     }
   },
   methods: {
-    handleNoticeClear() {},
-    changeReadState() {}
+    handleNoticeClear(title, key) {
+      this.$message.success(`${"清空了"} ${title}`);
+      this.$store.dispatch({
+        type: "global/clearNotices",
+        payload: key
+      });
+    },
+    changeReadState(item) {
+      this.$store.dispatch({
+        type: "global/changeNoticeReadState",
+        payload: item.id
+      });
+    }
   },
   mounted() {
     this.$store.dispatch("global/fetchNotices").then(() => {});

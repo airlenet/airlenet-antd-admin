@@ -83,19 +83,34 @@
             <img slot="cover" :alt="item.title" :src="item.cover" />
             <a-card-meta>
               <a slot="title">{{ item.title }}</a>
-              <!--<Paragraph slot="description"-->
+              <div
+                slot="description"
+                class="ant-typography ant-typography-ellipsis ant-typography-ellipsis-multiple-line"
+                style="-webkit-line-clamp: 2;"
+              >
+                {{ item.subDescription }}
+              </div>
+              <!--<Paragraph -->
               <!--className={styles.item}-->
               <!--:ellipsis="{-->
               <!--rows: 2,-->
               <!--}"-->
               <!--&gt;-->
-              <!--{item.subDescription}-->
+              <!---->
               <!--</Paragraph>-->
             </a-card-meta>
             <div :class="[styles.cardItemContent]">
-              <!--<span>{moment(item.updatedAt).fromNow()}</span>-->
+              <span> {{ format(item.updatedAt) }}</span>
               <div :class="[styles.avatarList]">
-                <!--<AvatarList size="small">-->
+                <AvatarList size="small">
+                  <AvatarListItem
+                    v-for="(member, index) in item.members"
+                    :key="`${item.id}-${index}`"
+                    :src="member.avatar"
+                    :tips="member.name"
+                  ></AvatarListItem>
+                </AvatarList>
+                <!--<AvatarList>-->
                 <!--{item.members.map((member, i) => (-->
                 <!--<AvatarList.Item-->
                 <!--key={getKey(item.id, i)}-->
@@ -119,9 +134,20 @@ import StandardFormRow from "@/components/StandardFormRow";
 import TagSelect from "../../../../components/TagSelect/TagSelect";
 import TagSelectOption from "../../../../components/TagSelect/TagSelectOption";
 import { registerModel } from "./model.js";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/esm/plugin/relativeTime";
+import AvatarList from "../../../../components/AvatarList/AvatarList";
+import AvatarListItem from "../../../../components/AvatarList/AvatarListItem";
+dayjs.extend(relativeTime);
 export default {
   name: "Projects",
-  components: { TagSelectOption, TagSelect, StandardFormRow },
+  components: {
+    AvatarListItem,
+    AvatarList,
+    TagSelectOption,
+    TagSelect,
+    StandardFormRow
+  },
   data() {
     return {
       styles,
@@ -155,6 +181,26 @@ export default {
         count: 8
       }
     });
+  },
+  methods: {
+    format(val) {
+      return dayjs(val).fromNow();
+    }
   }
 };
 </script>
+<style>
+.ant-typography p,
+div.ant-typography {
+  margin-bottom: 1em;
+}
+.ant-typography {
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-typography-ellipsis-multiple-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

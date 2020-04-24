@@ -16,10 +16,10 @@ export default {
       saveCurrentUser(state,currentUser){
           state.currentUser=currentUser
       },
-      changeNotifyCount(state ,{totalCount,unreadCount}){
+      changeNotifyCount(state ,action){
           const currentUser={...state.currentUser}
-          currentUser.notifyCount=totalCount;
-          currentUser.unreadCount=unreadCount;
+          currentUser.notifyCount=action.payload.totalCount;
+          currentUser.unreadCount=action.payload.unreadCount;
           state.currentUser= currentUser
       },
   },

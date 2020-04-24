@@ -57,7 +57,7 @@ export default {
       selectedKeys: [],
       defaultOpenKeys: [],
       defaultSelectedKeys: [],
-      openKeys:[],
+      openKeys: []
     };
   },
 
@@ -70,12 +70,12 @@ export default {
     temp.pop();
     this.defaultOpenKeys = temp;
     this.currentOpenKeys = this.defaultOpenKeys;
-    this.openKeys = this.currentOpenKeys
+    this.openKeys = this.currentOpenKeys;
   },
   methods: {
     setOpenKeys(keys) {
       this.currentOpenKeys = keys;
-      this.openKeys=keys;
+      this.openKeys = keys;
     },
     //eslint-disable-next-line
     setSelects({ item, key, selectedKeys }){
@@ -109,15 +109,15 @@ export default {
       }
       return `/${path || ""}`.replace(/\/+/g, "/");
     },
-    changeOpenKeys(){
+    changeOpenKeys() {
       if (
         this.currentOpenKeys &&
         !this.collapsed &&
         this.layout === "sidemenu"
       ) {
-        this.openKeys= this.currentOpenKeys;
-      }else{
-        this.openKeys= [];
+        this.openKeys = this.currentOpenKeys;
+      } else {
+        this.openKeys = [];
       }
     }
   },
@@ -131,13 +131,12 @@ export default {
         if (this.selectedKeys != newVal.path) this.selectedKeys = [newVal.path];
       }
     },
-    layout(){
-      this.changeOpenKeys()
+    layout() {
+      this.changeOpenKeys();
     },
     collapsed() {
-      this.changeOpenKeys()
-    },
-
+      this.changeOpenKeys();
+    }
   }
 };
 </script>
