@@ -62,9 +62,7 @@ export default {
   },
 
   created() {
-    this.defaultSelectedKeys = this.getSelectedMenuKeys(
-      this.$route.fullPath
-    );
+    this.defaultSelectedKeys = this.getSelectedMenuKeys(this.$route.fullPath);
     this.selectedKeys = this.defaultSelectedKeys;
     const temp = this.defaultSelectedKeys.concat([]);
     temp.pop();

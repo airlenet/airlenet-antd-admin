@@ -17,52 +17,53 @@
       </a-badge>
     </span>
     <div slot="overlay">
-    <a-spin :spinning="loading" :delay="300">
-      <a-tabs
-        :class="{ [styles.tabs]: true }"
-        @change="
-          activeKey => {
-            this.visible = true;
-            this.onTabChange && this.onTabChange(activeKey);
-          }
-        "
-      >
-        <template v-for="slot in $slots.default">
-          <a-tab-pane
-            :tab="
-              slot.data.attrs.count
-                ? slot.componentOptions.propsData.title +
-                  '(' +
-                  slot.data.attrs.count +
-                  ')'
-                : slot.componentOptions.propsData.title
-            "
-            :key="slot.componentOptions.propsData.tabKey"
-          >
-            <SlotProps
-              :slots="[slot]"
-              :propsData="{
-                clearText: clearText,
-                viewMoreText: viewMoreText,
-                onClear: () =>
-                  onClear &&
-                  onClear(
-                    slot.componentOptions.propsData.title,
-                    slot.componentOptions.propsData.tabKey
-                  ),
-                onClick: item =>
-                  onItemClick &&
-                  onItemClick(item, slot.componentOptions.propsData),
-                onViewMore: event =>
-                  onViewMore &&
-                  onViewMore(slot.componentOptions.propsData, event),
-                data: slot.data.attrs.list
-              }"
-            />
-          </a-tab-pane>
-        </template>
-      </a-tabs>
-    </a-spin></div>
+      <a-spin :spinning="loading" :delay="300">
+        <a-tabs
+          :class="{ [styles.tabs]: true }"
+          @change="
+            activeKey => {
+              this.visible = true;
+              this.onTabChange && this.onTabChange(activeKey);
+            }
+          "
+        >
+          <template v-for="slot in $slots.default">
+            <a-tab-pane
+              :tab="
+                slot.data.attrs.count
+                  ? slot.componentOptions.propsData.title +
+                    '(' +
+                    slot.data.attrs.count +
+                    ')'
+                  : slot.componentOptions.propsData.title
+              "
+              :key="slot.componentOptions.propsData.tabKey"
+            >
+              <SlotProps
+                :slots="[slot]"
+                :propsData="{
+                  clearText: clearText,
+                  viewMoreText: viewMoreText,
+                  onClear: () =>
+                    onClear &&
+                    onClear(
+                      slot.componentOptions.propsData.title,
+                      slot.componentOptions.propsData.tabKey
+                    ),
+                  onClick: item =>
+                    onItemClick &&
+                    onItemClick(item, slot.componentOptions.propsData),
+                  onViewMore: event =>
+                    onViewMore &&
+                    onViewMore(slot.componentOptions.propsData, event),
+                  data: slot.data.attrs.list
+                }"
+              />
+            </a-tab-pane>
+          </template>
+        </a-tabs>
+      </a-spin>
+    </div>
   </HeaderDropdown>
   <span v-else :class="[{ [styles.noticeButton]: true }, className]">
     <a-badge

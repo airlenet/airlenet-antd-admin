@@ -116,8 +116,7 @@ export default [
                 name: "applications",
                 icon: "smile",
                 path: "/list/search/applications",
-                component: () =>
-                  import("@/pages/list/search/applications/index.jsx")
+                component: () => import("@/pages/list/search/applications")
               }
             ]
           },
