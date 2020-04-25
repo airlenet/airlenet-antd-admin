@@ -8,12 +8,13 @@ const themePlugin = require("./plugin/theme.js");
 const resolve = dir => {
   return path.join(__dirname, dir);
 };
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const publicPath = process.env.NODE_ENV === 'production'
+    ? '/ant-design-vue-pro/'
+    : '/'
 module.exports = {
   // 选项...
-  publicPath: process.env.NODE_ENV === 'production'
-      ? '/ant-design-vue-pro/'
-      : '/',
+  publicPath: publicPath,
   css: {
     extract: true,
     requireModuleExtension: true,
@@ -27,7 +28,17 @@ module.exports = {
       }
     }
   },
+    chainWebpack:config=>{
+      // console.log(config.plugin('html'))
+      // config.plugin('html')
+      //     .tap(options=>{
+      //         options.title='Ant Design Vue Pro';
+      //         options.BASE_URL=publicPath
+      //         options.template = __dirname + '/public/index.html'
+      //     return options})
+    },
   configureWebpack: {
+
     plugins: [themePlugin, new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
     resolve: {
       alias: {

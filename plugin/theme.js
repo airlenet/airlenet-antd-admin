@@ -9,7 +9,7 @@ const options = {
         "../node_modules/ant-design-vue/es/style/themes/default.less"
     ),
     publicPath:process.env.NODE_ENV === 'production'
-        ? '/ant-design-vue-pro/'
+        ? '/ant-design-vue-pro'
         : '',
     mainLessFile: "",
     themeVariables: ["@primary-color"],
