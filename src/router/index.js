@@ -4,7 +4,7 @@ import routes from "./routers.js";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash", //hash //history
   base: process.env.BASE_URL,
   routes
 });
