@@ -16,8 +16,8 @@
         <BellOutlined :class="{ [styles.icon]: true }" />
       </a-badge>
     </span>
-
-    <a-spin slot="overlay" :spinning="loading" :delay="300">
+    <div slot="overlay">
+    <a-spin :spinning="loading" :delay="300">
       <a-tabs
         :class="{ [styles.tabs]: true }"
         @change="
@@ -62,7 +62,7 @@
           </a-tab-pane>
         </template>
       </a-tabs>
-    </a-spin>
+    </a-spin></div>
   </HeaderDropdown>
   <span v-else :class="[{ [styles.noticeButton]: true }, className]">
     <a-badge
