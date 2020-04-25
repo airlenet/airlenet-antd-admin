@@ -76,7 +76,7 @@ import GlobalRightContent from "../components/Header/GlobalRightContent";
 import routes from "../router/routers.js";
 import FooterView from "../components/Footer/FooterView";
 import ResizeObserver from "resize-observer-polyfill";
-import { getPageTitleInfo } from '@/utils/getPageTitle';
+import { getPageTitleInfo } from "@/utils/getPageTitle";
 export default {
   name: "ProLayout",
   components: {
@@ -123,8 +123,8 @@ export default {
       resizeObserver: null,
       hasSiderMenu: true,
       location: { pathname: "/" },
-      pageProps:{
-        pathname :'/'
+      pageProps: {
+        pathname: "/"
       }
     };
   },
@@ -179,7 +179,7 @@ export default {
     isChildrenLayout() {
       return false;
     },
-    breadcrumbNameMap(){
+    breadcrumbNameMap() {
       return this.$store.state.menu.breadcrumbNameMap;
     }
   },
@@ -210,14 +210,13 @@ export default {
       this.resizeObserver.observe(document.body);
       this.bus.$on("onSelect", this.onMenuClick);
     });
-
   },
   watch: {
     //eslint-disable-next-line
     $route(to, from) {
       this.location.pathname = window.location.pathname;
-      this.pageProps.breadcrumbNameMap=this.breadcrumbNameMap
-      getPageTitleInfo(this.pageProps)
+      this.pageProps.breadcrumbNameMap = this.breadcrumbNameMap;
+      getPageTitleInfo(this.pageProps);
     }
   },
   beforeDestroy() {

@@ -1,6 +1,10 @@
 import axios from "axios";
-
+import config from "../config/config";
 axios.defaults.withCredentials = true;
+const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? config.apiBaseUrl.dev
+    : config.apiBaseUrl.pro;
 
 class HttpRequest {
   constructor(baseUrl = "/") {
@@ -63,7 +67,7 @@ class HttpRequest {
   }
 }
 
-let httpRequest = new HttpRequest();
+let httpRequest = new HttpRequest(baseUrl);
 const request = (url, params) => {
   return httpRequest.request({ url, ...params });
 };

@@ -2,16 +2,14 @@
 // import webpackPlugin from './plugin.config';
 const path = require("path");
 const webpack = require("webpack");
-const { createMockMiddleware } = require("umi-mock-middleware");
 const themePlugin = require("./plugin/theme.js");
 // eslint-disable-next-line
 const resolve = dir => {
   return path.join(__dirname, dir);
 };
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const publicPath = process.env.NODE_ENV === 'production'
-    ? '/ant-design-vue-pro/'
-    : '/'
+
+const publicPath =
+  process.env.NODE_ENV === "production" ? "/ant-design-vue-pro/" : "/";
 module.exports = {
   // 选项...
   publicPath: publicPath,
@@ -28,17 +26,13 @@ module.exports = {
       }
     }
   },
-    chainWebpack:config=>{
-      // console.log(config.plugin('html'))
-      // config.plugin('html')
-      //     .tap(options=>{
-      //         options.title='Ant Design Vue Pro';
-      //         options.BASE_URL=publicPath
-      //         options.template = __dirname + '/public/index.html'
-      //     return options})
-    },
+  chainWebpack: config => {
+    config.plugin("html").tap(options => {
+      options[0].title = "Ant Design Vue Pro";
+      return options;
+    });
+  },
   configureWebpack: {
-
     plugins: [themePlugin, new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
     resolve: {
       alias: {
@@ -48,25 +42,24 @@ module.exports = {
   },
   productionSourceMap: false,
   devServer: {
-    before: function(app) {
+    // before: function(app) {
     //     // var bodyParser = require("body-parser");
     //     // app.use(bodyParser.json());
-        if (process.env.MOCK !== "none") {
-            app.use(createMockMiddleware());
-        }
-    },
-    // proxy:'http://127.0.0.1:6868/ems-manage-web/',
-    proxy: {
-      "/api": {
-        target: "https://proapi.azurewebsites.net",
-        target: "http://localhost:8080",
-        ws: true, //如果要代理 websockets
-        secure: false, // 如果是https接口，需要配置这个参数
-        changeOrigin: true, //是否跨域
-        pathRewrite: {
-          "^/api/": "/api/"
-        }
-      }
-    }
+    //     if (process.env.MOCK !== "none") {
+    //         app.use(createMockMiddleware());
+    //     }
+    // },
+    // proxy: {
+    // "/api": {
+    //   target: "https://proapi.azurewebsites.net",
+    //   target: "http://localhost:8080",
+    //   ws: true, //如果要代理 websockets
+    //   secure: false, // 如果是https接口，需要配置这个参数
+    //   changeOrigin: true, //是否跨域
+    //   pathRewrite: {
+    //     "^/api/": "/api/"
+    //   }
+    // }
+    // }
   }
 };

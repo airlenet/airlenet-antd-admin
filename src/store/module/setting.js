@@ -1,5 +1,6 @@
 /* eslint-disable */
 import defaultSettings from "../../config/defaultSettings";
+import config from "../../config/config"
 import {message} from 'ant-design-vue'
 let lessNodesAppended;
 const updateTheme = primaryColor => {
@@ -38,7 +39,7 @@ const updateTheme = primaryColor => {
     const lessConfigNode = document.createElement("script");
     const lessScriptNode = document.createElement("script");
     lessStyleNode.setAttribute("rel", "stylesheet/less");
-    lessStyleNode.setAttribute("href", "/color.less");
+    lessStyleNode.setAttribute("href", config.publicPath+"color.less");
     lessConfigNode.innerHTML = `
       window.less = {
         async: true,

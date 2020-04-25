@@ -1,5 +1,5 @@
 {
-  "name": "ant-design-vue-pro",
+  "name": "Ant-Design-Pro",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,6 +20,7 @@
     "dayjs": "^1.8.24",
     "lodash": "^4.17.15",
     "omit.js": "^1.0.2",
+    "query-string": "^6.12.1",
     "resize-observer-polyfill": "^1.5.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
