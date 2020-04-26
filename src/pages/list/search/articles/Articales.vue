@@ -9,7 +9,7 @@
             paddingBottom: '11px'
           }"
         >
-          <a-form-model-item name="category" :rules="[]" props="category">
+          <a-form-item name="category" :rules="[]" props="category">
             <TagSelect expandable v-model="formModel.category">
               <TagSelectOption value="cat1">类目一</TagSelectOption>
               <TagSelectOption value="cat2">类目二</TagSelectOption>
@@ -24,7 +24,7 @@
               <TagSelectOption value="cat11">类目十一</TagSelectOption>
               <TagSelectOption value="cat12">类目十二</TagSelectOption>
             </TagSelect>
-          </a-form-model-item>
+          </a-form-item>
         </StandardFormRow>
         <StandardFormRow title="owner" grid>
           <a-form-item

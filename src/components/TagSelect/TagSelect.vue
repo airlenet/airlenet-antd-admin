@@ -34,11 +34,12 @@ export default {
     DownOutlined,
     UpOutlined
   },
+  inheritAttrs: false,
   props: {
     className: String,
     styleName: String,
     hideCheckAll: Boolean,
-    value: {
+    defaultValue:{
       type: Array,
       default: function() {
         return [];
@@ -60,7 +61,7 @@ export default {
     return {
       ...this.actionsText,
       styles,
-      currentValue: this.value,
+      currentValue: this.$attrs['value']==undefined?this.defaultValue:this.$attrs['value'],
       expand: false
     };
   },
@@ -112,6 +113,8 @@ export default {
     onChange(value) {
       this.currentValue = value;
       this.updateValue();
+      this.$emit('change.value', value);
+      this.$emit('change', value);
       this.$emit("input", value);
     },
     handleExpand() {
