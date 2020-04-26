@@ -110,15 +110,6 @@
                     :tips="member.name"
                   ></AvatarListItem>
                 </AvatarList>
-                <!--<AvatarList>-->
-                <!--{item.members.map((member, i) => (-->
-                <!--<AvatarList.Item-->
-                <!--key={getKey(item.id, i)}-->
-                <!--src={member.avatar}-->
-                <!--tips={member.name}-->
-                <!--/>-->
-                <!--))}-->
-                <!--</AvatarList>-->
               </div>
             </div>
           </a-card>

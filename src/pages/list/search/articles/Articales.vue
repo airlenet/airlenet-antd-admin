@@ -280,7 +280,8 @@ export default {
   watch: {
     formModel: {
       //eslint-disable-next-line
-        handler(newValue, oldValue) {
+        handler(newVal, oldVal) {
+          console.log(newVal)
         this.handleSubmit();
       },
       immediate: false,

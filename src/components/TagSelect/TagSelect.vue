@@ -39,7 +39,7 @@ export default {
     className: String,
     styleName: String,
     hideCheckAll: Boolean,
-    defaultValue:{
+    defaultValue: {
       type: Array,
       default: function() {
         return [];
@@ -61,7 +61,10 @@ export default {
     return {
       ...this.actionsText,
       styles,
-      currentValue: this.$attrs['value']==undefined?this.defaultValue:this.$attrs['value'],
+      currentValue:
+        this.$attrs["value"] == undefined
+          ? (this.$attrs['data-__meta'].initialValue==undefined?this.defaultValue:this.$attrs['data-__meta'].initialValue)
+          : this.$attrs["value"],
       expand: false
     };
   },
@@ -113,9 +116,15 @@ export default {
     onChange(value) {
       this.currentValue = value;
       this.updateValue();
-      this.$emit('change.value', value);
-      this.$emit('change', value);
-      this.$emit("input", value);
+      if(this.$listeners['change.value']){
+        this.$emit("change.value", value);
+      }
+      if(this.$listeners['change']){
+        this.$listeners['change'](value)
+      }
+      if(this.$listeners['input']){
+        this.$listeners['input'](value)
+      }
     },
     handleExpand() {
       this.expand = !this.expand;
