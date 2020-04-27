@@ -31,7 +31,7 @@ export default {
   updated: () => {},
   methods: {
     // eslint-disable-next-line
-      getPopupContainer(el, dialogContext) {
+    getPopupContainer(el, dialogContext) {
       if (this.isChildrenLayout && this.$ref.content) {
         return this.$ref.content;
       }

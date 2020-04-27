@@ -281,7 +281,7 @@ export default {
     formModel: {
       //eslint-disable-next-line
         handler(newVal, oldVal) {
-          console.log(newVal)
+        console.log(newVal);
         this.handleSubmit();
       },
       immediate: false,

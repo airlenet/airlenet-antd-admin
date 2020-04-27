@@ -10,7 +10,10 @@
           }"
         >
           <a-form-item name="category">
-            <TagSelect expandable v-decorator="['category',{initialValue:['cat1']}]">
+            <TagSelect
+              expandable
+              v-decorator="['category', { initialValue: ['cat1'] }]"
+            >
               <TagSelectOption value="cat1">类目一</TagSelectOption>
               <TagSelectOption value="cat2">类目二</TagSelectOption>
               <TagSelectOption value="cat3">类目三</TagSelectOption>
